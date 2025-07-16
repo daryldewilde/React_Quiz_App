@@ -1,12 +1,22 @@
-import { createContext } from "react";
-import { contextProps } from "../types/types";
 
-let Context = createContext("")
+import { UserContextType } from "../types/types";
+import { createContext, useState, ReactNode } from "react";
 
-export default  function UserContext({children}: contextProps) {
-    return (
-        <Context.Provider value="">
-            {children}
-        </Context.Provider>
-    )
-};
+
+export const UserContext = createContext({});
+
+export function UserContextProvider({ children }: { children: ReactNode }) {
+
+  const userName = localStorage.getItem("name") || ""
+  const [user, setUser] = useState<string>(userName);
+  
+  let value:UserContextType = {
+    user,
+    setUser
+  }
+  return (
+    <UserContext.Provider value={value}>
+      {children}
+    </UserContext.Provider>
+  );
+}

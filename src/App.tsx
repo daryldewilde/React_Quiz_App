@@ -3,6 +3,7 @@ import Home from './pages/Home'
 import Leaderboard from './pages/Leaderboard'
 import Quiz from './pages/Quiz'
 import Result from './pages/Result'
+import Subjects from './pages/Subjects';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 function App() {
@@ -11,8 +12,9 @@ function App() {
                 <Routes>
                     <Route path='/' element={<Home />}/>
                     <Route path='/leaderboard' element={<Leaderboard />} />
-                    <Route path='/quiz' element={<Quiz />} />
+                    <Route path='/quiz/:category' element={<Quiz />} />
                     <Route path='/result' element={<Result />} />
+                    <Route path='/subjects' element={<Subjects />} />
                 </Routes>
             </BrowserRouter>
     );

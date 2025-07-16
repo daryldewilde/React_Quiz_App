@@ -1,9 +1,8 @@
-import React from 'react';
+import {StrictMode} from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import NameContext from './contexts/name';
-import ThemeContext from './contexts/theme';
-import UserContext from './contexts/user';
+import {ThemeContextProvider} from './contexts/theme';
+import {UserContextProvider} from './contexts/user';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(
@@ -11,15 +10,13 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-  <React.StrictMode>
-    <NameContext>
-      <ThemeContext>
-        <UserContext>
+  <StrictMode>
+      <ThemeContextProvider>
+        <UserContextProvider>
           <App />
-        </UserContext>
-      </ThemeContext>
-    </NameContext>
-  </React.StrictMode>
+        </UserContextProvider>
+      </ThemeContextProvider>
+  </StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -1,12 +1,27 @@
-import { createContext } from "react";
-import { contextProps } from "../types/types";
 
-let Context = createContext("")
+import { ThemeContextType } from "../types/types";
+import { createContext, useState, ReactNode } from "react";
 
-export default  function ThemeContext({children}: contextProps) {
-    return (
-        <Context.Provider value="">
-            {children}
-        </Context.Provider>
-    )
-};
+
+export const ThemeContext = createContext({});
+
+export function ThemeContextProvider({ children }: { children: ReactNode }) {
+  let  themePreference = localStorage.getItem("theme") 
+  
+  if (!themePreference) {
+    themePreference = "light"
+    localStorage.setItem("theme", themePreference)
+  }
+
+  const [theme, setTheme] = useState<string>(themePreference);
+  
+  let value:ThemeContextType = {
+    theme,
+    setTheme
+  }
+  return (
+    <ThemeContext.Provider value={value}>
+      {children}
+    </ThemeContext.Provider>
+  );
+}
