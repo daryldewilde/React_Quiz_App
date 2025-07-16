@@ -18,7 +18,7 @@ export default function Home(){
     return(
         <>
             <Header />
-                <Main>{userContext.user === ""&&  <UsernameForm />} </Main>
+            <Main>{userContext.user === ""&&  <UsernameForm />} </Main>
             <Footer />
         </>
     )

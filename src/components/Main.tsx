@@ -4,10 +4,10 @@ import { ThemeContextType} from '../types/types';
 import { ReactNode } from "react";
 
 export default function Main(props:{children:ReactNode}){
-    const themeContext = useContext(ThemeContext)  as ThemeContextType
+    const themeContext = useContext(ThemeContext) as ThemeContextType
     return(
-        <main className={`w-full h-full ${themeContext.theme === "dark"? "bg-gray-800 text-white ":"bg-white-100"} flex items-center justify-center`}>
-            <div  className={`h-1/3 w-[80%] md:w-1/2 border border-gray-500 rounded-xl  p-8 shadow-xl  ${themeContext.theme === "light"?"bg-gray-200":"bg-gray-900"}`}>
+        <main className={`min-h-screen w-full pt-20 pb-20 ${themeContext.theme === "dark" ? "bg-gray-700" : "bg-gray-200"} flex items-center justify-center p-4`}>
+            <div className={`w-full max-w-2xl ${themeContext.theme === "dark" ? "bg-gray-800 border-gray-700" : "bg-blue-100 border-blue-300"} rounded-lg p-8 border`}>
                 {props.children} 
             </div>
         </main>

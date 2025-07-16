@@ -4,23 +4,29 @@ import Main from "../components/Main";
 import {categories} from '../mockData'
 import CategorySelect from "../components/CategorySelect"
 import Button from "../components/Button";
+import { useContext } from 'react';
+import { ThemeContext } from '../contexts/theme';
+import { ThemeContextType } from '../types/types';
 
 export default function Subjects(){
-  
-
+    const themeContext = useContext(ThemeContext) as ThemeContextType;
     let catComponents = categories.map((category) => (
         <CategorySelect key={category} cat={category} id={category}/>
     ));
-    console.log(catComponents)
+    
     return(
         <>
             <Header />
             <Main>
-                <div className="flex flex-col justify-between h-full">
-                    <div className="flex flex-wrap" >
+                <div className="text-center">
+                    <h1 className={`text-3xl font-bold mb-2 ${themeContext.theme === "dark" ? "text-white" : "text-gray-900"}`}>Choose a Subject</h1>
+                    <p className={`mb-8 ${themeContext.theme === "dark" ? "text-gray-300" : "text-gray-600"}`}>Select the topic you'd like to be quizzed on</p>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
                         {catComponents}
                     </div>
-                    <Button text="Next" />
+                    
+                    <Button text="Start Quiz" />
                 </div>
             </Main> 
             <Footer />
