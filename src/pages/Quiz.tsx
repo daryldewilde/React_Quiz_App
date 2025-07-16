@@ -30,9 +30,9 @@ export default function Quiz(){
     for (const key in question.answers) {
         if ((question.answers as any )[key] !== undefined && (question.answers as any )[key] !== null){
              options.push(
-                <div key={key} className={`flex items-center p-4 border rounded-lg hover:bg-opacity-80 ${themeContext.theme === "dark" ? "bg-gray-700 border-gray-600 hover:bg-gray-600" : "bg-white border-gray-300 hover:bg-gray-50"}`}>
-                    <input id={`bordered-radio-${key}`} type="radio" value={key} name="bordered-radio" className="w-4 h-4 mr-3" />
-                    <label htmlFor={`bordered-radio-${key}`} className={`cursor-pointer ${themeContext.theme === "dark" ? "text-white" : "text-gray-900"}`}>{(question.answers as any )[key]}</label>
+                <div key={key} className={`flex items-center p-3 md:p-4 border rounded-lg hover:bg-opacity-80 ${themeContext.theme === "dark" ? "bg-gray-700 border-gray-600 hover:bg-gray-600" : "bg-white border-gray-300 hover:bg-gray-50"}`}>
+                    <input id={`bordered-radio-${key}`} type="radio" value={key} name="bordered-radio" className="w-4 h-4 mr-2 md:mr-3" />
+                    <label htmlFor={`bordered-radio-${key}`} className={`cursor-pointer text-sm md:text-base ${themeContext.theme === "dark" ? "text-white" : "text-gray-900"}`}>{(question.answers as any )[key]}</label>
                 </div>
             )
         }
@@ -44,14 +44,14 @@ export default function Quiz(){
             <Header />
             <Main>
                 <form action={nextQuestion} className='text-center'>
-                    <h1 className={`text-2xl font-bold mb-4 ${themeContext.theme === "dark" ? "text-white" : "text-gray-900"}`}>{category}</h1>
-                    <p className={`text-lg mb-6 ${themeContext.theme === "dark" ? "text-gray-300" : "text-gray-700"}`}>{question.question}</p>
-                    <div className="flex flex-col gap-3 mb-6">
+                    <h1 className={`text-xl md:text-2xl font-bold mb-3 md:mb-4 ${themeContext.theme === "dark" ? "text-white" : "text-gray-900"}`}>{category}</h1>
+                    <p className={`text-base md:text-lg mb-4 md:mb-6 ${themeContext.theme === "dark" ? "text-gray-300" : "text-gray-700"}`}>{question.question}</p>
+                    <div className="flex flex-col gap-2 md:gap-3 mb-4 md:mb-6">
                         {options}
                     </div>
                     <div className="text-center">
                         <Button text="Next Question" />
-                        <p className={`text-sm mt-3 ${themeContext.theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>Question {questionIndex + 1} of {questions.length}</p>
+                        <p className={`text-xs md:text-sm mt-2 md:mt-3 ${themeContext.theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>Question {questionIndex + 1} of {questions.length}</p>
                     </div>
                 </form>
             </Main>

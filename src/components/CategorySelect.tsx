@@ -15,10 +15,10 @@ export default function CategorySelect(props:{cat:string,id:string}){
         <div 
             id={props.id} 
             onClick={navigateToQuizPage} 
-            className={`p-6 text-center cursor-pointer border rounded-lg hover:bg-opacity-80 ${themeContext.theme === "dark" ? "bg-gray-700 border-gray-600 text-white hover:bg-gray-600" : "bg-white border-gray-300 text-gray-900 hover:bg-gray-50"}`}
+            className={`p-4 md:p-6 text-center cursor-pointer border rounded-lg hover:bg-opacity-80 ${themeContext.theme === "dark" ? "bg-gray-700 border-gray-600 text-white hover:bg-gray-600" : "bg-white border-gray-300 text-gray-900 hover:bg-gray-50"}`}
         >
-            <h3 className="font-medium text-lg">{props.cat}</h3>
-            <p className={`text-sm mt-1 ${themeContext.theme === "dark" ? "text-gray-300" : "text-gray-600"}`}>Click to start</p>
+            <h3 className="font-medium text-base md:text-lg">{props.cat}</h3>
+            <p className={`text-xs md:text-sm mt-1 ${themeContext.theme === "dark" ? "text-gray-300" : "text-gray-600"}`}>Click to start</p>
         </div>
     )
 }

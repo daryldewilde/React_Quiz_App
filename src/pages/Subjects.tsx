@@ -19,10 +19,10 @@ export default function Subjects(){
             <Header />
             <Main>
                 <div className="text-center">
-                    <h1 className={`text-3xl font-bold mb-2 ${themeContext.theme === "dark" ? "text-white" : "text-gray-900"}`}>Choose a Subject</h1>
-                    <p className={`mb-8 ${themeContext.theme === "dark" ? "text-gray-300" : "text-gray-600"}`}>Select the topic you'd like to be quizzed on</p>
+                    <h1 className={`text-2xl md:text-3xl font-bold mb-2 ${themeContext.theme === "dark" ? "text-white" : "text-gray-900"}`}>Choose a Subject</h1>
+                    <p className={`mb-6 md:mb-8 text-sm md:text-base ${themeContext.theme === "dark" ? "text-gray-300" : "text-gray-600"}`}>Select the topic you'd like to be quizzed on</p>
                     
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4 mb-6 md:mb-8">
                         {catComponents}
                     </div>
                     

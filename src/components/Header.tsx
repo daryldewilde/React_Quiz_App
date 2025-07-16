@@ -20,17 +20,17 @@ export default function Header() {
     console.log(themeContext);
     return (
         <header>
-            <nav className={`flex items-center justify-between p-5 border-b fixed top-0 w-full ${themeContext.theme === "dark" ? "bg-gray-900 border-gray-700 text-white" : "bg-gray-800 border-gray-300 text-white"} z-10`}>
-                <div className='flex items-center'>
-                    <img src={logo} alt='logo' className="h-10 mr-3" />
-                    <h1 className="text-xl font-bold">Quiz App</h1>
+            <nav className={`flex flex-col md:flex-row items-center justify-between p-3 md:p-5 border-b fixed top-0 w-full ${themeContext.theme === "dark" ? "bg-gray-900 border-gray-700 text-white" : "bg-gray-800 border-gray-300 text-white"} z-10`}>
+                <div className='flex items-center mb-2 md:mb-0'>
+                    <img src={logo} alt='logo' className="h-8 md:h-10 mr-2 md:mr-3" />
+                    <h1 className="text-lg md:text-xl font-bold">Quiz App</h1>
                 </div>
                 
-                <div className='flex items-center gap-6'>
-                    <div className='flex gap-4'>
-                        <Link to='/' className="hover:text-pink-300">Home</Link>
-                        <Link to='/subjects' className="hover:text-pink-300">Subjects</Link>
-                        <Link to='/leaderboard' className="hover:text-pink-300">Leaderboard</Link>
+                <div className='flex items-center gap-4 md:gap-6'>
+                    <div className='flex gap-3 md:gap-4'>
+                        <Link to='/' className="text-sm md:text-base hover:text-pink-300">Home</Link>
+                        <Link to='/subjects' className="text-sm md:text-base hover:text-pink-300">Subjects</Link>
+                        <Link to='/leaderboard' className="text-sm md:text-base hover:text-pink-300">Leaderboard</Link>
                     </div>
                     
                     <button 
