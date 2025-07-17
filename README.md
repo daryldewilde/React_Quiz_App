@@ -1,46 +1,84 @@
-# Getting Started with Create React App
+# React Quiz App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A simple and beginner-friendly quiz application built with React and TypeScript.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- 📝 Interactive quiz questions
+- 🎯 Multiple choice answers
+- 📊 Score tracking
+- 🌙 Dark/Light theme
+- 📱 Works on mobile and desktop
+- 🌐 Can use external API questions (optional)
 
-### `npm start`
+## How to Run
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+1. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+2. **Start the app:**
+   ```bash
+   npm start
+   ```
 
-### `npm test`
+3. **Open in browser:**
+   Go to [http://localhost:3000](http://localhost:3000)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Want to Use External Quiz Questions? (Optional)
 
-### `npm run build`
+By default, the app uses local quiz data. If you want to get questions from an external API:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. Go to [QuizAPI.io](https://quizapi.io/) and create a free account
+2. Get your API key from the dashboard
+3. Create a file called `.env.local` in your project root
+4. Add this line: `REACT_APP_QUIZ_API_KEY=your_api_key_here`
+5. Restart your app
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+**No API key? No problem!** The app works perfectly without it.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## How It Works
 
-### `npm run eject`
+- **Home Page**: Enter your username
+- **Subjects**: Pick a quiz category
+- **Quiz**: Answer questions and get scored
+- **Results**: See your score and go to leaderboard
+- **Leaderboard**: View all scores
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Project Structure
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```
+src/
+├── components/     # UI components (buttons, forms, etc.)
+├── pages/         # Main pages (home, quiz, results)
+├── contexts/      # App-wide state (theme, user)
+├── types/         # TypeScript definitions
+└── mockData.js    # Local quiz questions
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Technologies Used
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- React 18
+- TypeScript
+- Tailwind CSS
+- React Router
+- Axios (for API calls)
+
+## Development
+
+To build for production:
+```bash
+npm run build
+```
 
 ## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+This is a great project for learning:
+- React hooks (useState, useEffect, useContext)
+- TypeScript basics
+- API integration
+- Local storage
+- Responsive design
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Happy coding! 🚀

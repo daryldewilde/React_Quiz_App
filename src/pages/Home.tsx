@@ -1,26 +1,30 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import UsernameForm from "../components/UsernameForm";
-import { useContext } from "react";
-import { UserContext } from "../contexts/user";
-import { UserContextType } from "../types/types";
 import Main from "../components/Main";
+import { useUserContext } from "../hooks/useUserContext";
 
-import { useNavigate } from "react-router-dom";
+export default function Home() {
+    const userContext = useUserContext();
+    const navigate = useNavigate();
 
-export default function Home(){
-    const userContext = useContext(UserContext) as UserContextType;
-    const navigate = useNavigate()
-    if (userContext.user !== ""){
-        navigate("/subjects")
-    }
+    // Redirect to subjects page if user is already logged in
+    useEffect(() => {
+        if (userContext.user !== "") {
+            navigate("/subjects");
+        }
+    }, [userContext.user, navigate]);
 
-    return(
+    return (
         <>
             <Header />
-            <Main>{userContext.user === ""&&  <UsernameForm />} </Main>
+            <Main>
+                {/* Show username form only if no user is logged in */}
+                {userContext.user === "" && <UsernameForm />}
+            </Main>
             <Footer />
         </>
-    )
+    );
 }
-

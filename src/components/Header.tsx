@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 
 export default function Header() {
     const themeContext = useContext(ThemeContext) as ThemeContextType;
-    console.log(themeContext)
+    //console.log(themeContext)
     function switchTheme() {
         if (themeContext.theme === "light") {
             localStorage.setItem("theme", "dark")
@@ -17,7 +17,7 @@ export default function Header() {
             themeContext.setTheme("light");
         }
     }
-    console.log(themeContext);
+    //console.log(themeContext);
     return (
         <header>
             <nav className={`flex flex-col md:flex-row items-center justify-between p-3 md:p-5 border-b fixed top-0 w-full ${themeContext.theme === "dark" ? "bg-gray-900 border-gray-700 text-white" : "bg-gray-800 border-gray-300 text-white"} z-10`}>

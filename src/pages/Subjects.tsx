@@ -1,7 +1,7 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Main from "../components/Main";
-import {categories} from '../mockData'
+import {categories} from '../quizData';
 import CategorySelect from "../components/CategorySelect"
 import Button from "../components/Button";
 import { useContext } from 'react';
@@ -10,7 +10,7 @@ import { ThemeContextType } from '../types/types';
 
 export default function Subjects(){
     const themeContext = useContext(ThemeContext) as ThemeContextType;
-    let catComponents = categories.map((category) => (
+    let catComponents = categories.map((category:any) => (
         <CategorySelect key={category} cat={category} id={category}/>
     ));
     
