@@ -19,13 +19,13 @@ export const staleTime = 1000 * 60 * 30; // 30 mins - how long data is considere
 // Categories available for quizzes
 export const categories = [
     "Linux",
-    "Javascript",
+    "Code",
     "Docker",
     "nodeJS",
     "HTML",
-    "MySQL",
+    "SQL",
     "React", 
-    "PHP",
+    "DevOps",
     "BASH"
 ];
 
