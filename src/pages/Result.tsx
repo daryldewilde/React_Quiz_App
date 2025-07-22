@@ -8,6 +8,7 @@ import { useThemeContext } from "../hooks/useThemeContext";
 import { useUserContext } from "../hooks/useUserContext";
 import { question } from "../types/types";
 import { List, ListItem, Typography , Box} from "@mui/material";
+import ReactConfetti from "react-confetti";
 
 
 
@@ -38,26 +39,26 @@ export default function Result() {
     switch (true) {
         case scorePercentage >= 90:
             result = {
-                heading: "Excellent!",
-                message: "Outstanding performance! You've mastered this topic!"
+                heading: "🎉 Excellent! 🏆",
+                message: "Outstanding performance! You've mastered this topic! "
             };
             break;
         case scorePercentage >= 70:
             result = {
-                heading: "Great Job!",
+                heading: "👏 Great Job! 😊",
                 message: "Well done! You have a solid understanding of the material!"
             };
             break;
         case scorePercentage >= 50:
             result = {
-                heading: "Good Effort!",
+                heading: "👍 Good Effort! 💪",
                 message: "Not bad! Keep practicing to improve your score!"
             };
             break;
         default:
             result = {
-                heading: "Keep Trying!",
-                message: "Don't give up! Review the material and try again!"
+                heading: "💥 Oh No! 😱",
+                message: "This is a disaster! Time to hit the books harder before coming back "
             };
             break;
     }
@@ -77,12 +78,12 @@ export default function Result() {
                     <Typography variant="body1" component="p" className={`font-semibold mb-2 ${
                     themeContext.theme === "dark" ? "text-white" : "text-gray-900"
                     }`}>
-                    Question: {q.question}
+                    ❓ Question: {q.question}
                     </Typography>
                     <Typography variant="body1" component="p" className={`${
                     themeContext.theme === "dark" ? "text-green-300" : "text-green-600"
                     }`}>
-                    Answer: {q.answers[answer]}
+                    ✅ Answer: {q.answers[answer]}
                     </Typography>
                 </Box >
                 </ListItem>
@@ -90,7 +91,7 @@ export default function Result() {
             } 
         }
 
-        return <p> Couldn't get  the correct answer</p>
+        return <p>Couldn't get the correct answer</p>
     })
 
 
@@ -116,7 +117,7 @@ export default function Result() {
         <>
             <Header />
             <Main>
-                
+                {scorePercentage >=50 && <ReactConfetti />}
                 <div className="text-center">
                     <h1 className={`text-2xl md:text-3xl font-bold mb-2 ${themeContext.theme === "dark" ? "text-white" : "text-gray-900"}`}>
                         {category}
@@ -127,8 +128,8 @@ export default function Result() {
                     <p className={`mb-6 md:mb-8 text-sm md:text-base ${themeContext.theme === "dark" ? "text-gray-300" : "text-gray-600"}`}>
                         {result.message}
                     </p>
-                    <h2 className={`text-xl md:text-2xl font-bold mb-2 ${themeContext.theme === "dark" ? "text-white" : "text-gray-900"}`}>
-                        Here are the correct answers to the questions you missed
+                    <h2 className={`text-xl md:text-xl font-semibold mb-2 ${themeContext.theme === "dark" ? "text-white" : "text-gray-900"}`}>
+                         Here are the correct answers to the questions you missed 
                     </h2>
                     <List className="list-none">
                         {failedQuestionsElements}
