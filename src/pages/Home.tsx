@@ -6,6 +6,7 @@ import UsernameForm from "../components/UsernameForm";
 import Main from "../components/Main";
 import { useUserContext } from "../hooks/useUserContext";
 
+// Home page component - entry point for the quiz app
 export default function Home() {
     const userContext = useUserContext();
     const navigate = useNavigate();

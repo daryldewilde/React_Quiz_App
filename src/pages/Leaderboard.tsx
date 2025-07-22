@@ -3,22 +3,14 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Main from "../components/Main";
 import { useThemeContext } from "../hooks/useThemeContext";
-
-// Define types for the leaderboard data
-interface Score {
-    name: string;
-    score: number;
-}
-
-interface LeaderboardData {
-    [key: string]: Score[];
-}
+import {Score, LeaderboardData} from "../types/types";
 
 export default function Leaderboard() {
     const themeContext = useThemeContext();
     const [selectedSubject, setSelectedSubject] = useState<string>("");
     const [subjects, setSubjects] = useState<string[]>([]);
     const [scores, setScores] = useState<Score[]>([]);
+
 
     // Load available subjects when component mounts
     useEffect(() => {
@@ -32,13 +24,14 @@ export default function Leaderboard() {
         }
     }, []);
 
+
     // Load scores for selected subject
     useEffect(() => {
         if (selectedSubject) {
             const leaderboardData: LeaderboardData = JSON.parse(localStorage.getItem('leaderboard') || '{}');
             const subjectScores = leaderboardData[selectedSubject] || [];
             // Sort scores from highest to lowest
-            const sortedScores = [...subjectScores].sort((a, b) => b.score - a.score);
+            const sortedScores = [...subjectScores].sort((a, b) => b.score/b.totalQuestions - a.score/a.totalQuestions);
             setScores(sortedScores);
         }
     }, [selectedSubject]);
@@ -70,9 +63,7 @@ export default function Leaderboard() {
                         </select>
                     </div>
 
-                    <div className={`rounded-lg overflow-hidden ${
-                        themeContext.theme === "dark" ? "bg-gray-800" : "bg-white"
-                    }`}>
+                    <div className={`rounded-lg overflow-hidden ${themeContext.theme === "dark" ? "bg-gray-800" : "bg-white"}`}>
                         {scores.map((score, index) => (
                             <div 
                                 key={index}
@@ -97,7 +88,7 @@ export default function Leaderboard() {
                                 <span className={`font-bold ${
                                     themeContext.theme === "dark" ? "text-pink-400" : "text-pink-600"
                                 }`}>
-                                    {score.score}/10
+                                    {score.score}/{score.totalQuestions}
                                 </span>
                             </div>
                         ))}

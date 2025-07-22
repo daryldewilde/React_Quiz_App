@@ -47,7 +47,7 @@ export default function UsernameForm() {
                 />
             </div>
             
-            <Button text="Start Quiz" />
+            <Button text="Start Quiz" type='submit'/>
         </form>
     );
 }

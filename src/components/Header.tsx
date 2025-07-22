@@ -1,13 +1,15 @@
 
-import logo from '../assets/logo.svg';
+import logo from '../assets/logo.png';
 import { useContext } from 'react';
 import { ThemeContext } from '../contexts/theme';
 import { ThemeContextType } from '../types/types';
 import { Link } from 'react-router-dom';
 
+// Header component with navigation and theme toggle
 export default function Header() {
     const themeContext = useContext(ThemeContext) as ThemeContextType;
-    //console.log(themeContext)
+    
+    // Toggle between light and dark themes
     function switchTheme() {
         if (themeContext.theme === "light") {
             localStorage.setItem("theme", "dark")
@@ -17,15 +19,21 @@ export default function Header() {
             themeContext.setTheme("light");
         }
     }
-    //console.log(themeContext);
+    
     return (
         <header>
-            <nav className={`flex flex-col md:flex-row items-center justify-between p-3 md:p-5 border-b fixed top-0 w-full ${themeContext.theme === "dark" ? "bg-gray-900 border-gray-700 text-white" : "bg-gray-800 border-gray-300 text-white"} z-10`}>
+            <nav className={`flex flex-col md:flex-row items-center justify-between p-3 md:p-5 border-b fixed top-0 w-full ${
+                themeContext.theme === "dark" 
+                    ? "bg-gray-900 border-gray-700 text-white" 
+                    : "bg-gray-800 border-gray-300 text-white"
+            } z-10`}>
+                {/* Logo and app title */}
                 <div className='flex items-center mb-2 md:mb-0'>
                     <img src={logo} alt='logo' className="h-8 md:h-10 mr-2 md:mr-3" />
                     <h1 className="text-lg md:text-xl font-bold">Quiz App</h1>
                 </div>
                 
+                {/* Navigation links and theme toggle */}
                 <div className='flex items-center gap-4 md:gap-6'>
                     <div className='flex gap-3 md:gap-4'>
                         <Link to='/' className="text-sm md:text-base hover:text-pink-300">Home</Link>
@@ -33,6 +41,7 @@ export default function Header() {
                         <Link to='/leaderboard' className="text-sm md:text-base hover:text-pink-300">Leaderboard</Link>
                     </div>
                     
+                    {/* Theme toggle button */}
                     <button 
                         onClick={switchTheme}
                         className="p-2 rounded-lg hover:bg-gray-700"

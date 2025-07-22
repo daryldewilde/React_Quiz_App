@@ -1,14 +1,19 @@
 import { useNavigate } from "react-router-dom";
-import { useContext } from 'react';
-import { ThemeContext } from '../contexts/theme';
-import { ThemeContextType } from '../types/types';
+import { useUserContext } from "../hooks/useUserContext";
+import { useThemeContext } from "../hooks/useThemeContext";
 
 export default function CategorySelect(props:{cat:string,id:string}){
     const navigate = useNavigate()
-    const themeContext = useContext(ThemeContext) as ThemeContextType;
+    const themeContext = useThemeContext()
+    const userContext = useUserContext()
     
     function navigateToQuizPage(){
-        navigate(`/quiz/${props.cat}`)
+        if (userContext.user !== "") {
+            navigate(`/quiz/${props.cat}`);
+        } else {
+            alert("You must Enter your Name to play")
+            navigate("/");
+        }
     }
     
     return(

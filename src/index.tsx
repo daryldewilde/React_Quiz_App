@@ -3,8 +3,10 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import {ThemeContextProvider} from './contexts/theme';
 import {UserContextProvider} from './contexts/user';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import reportWebVitals from './reportWebVitals';
 
+const client = new QueryClient()
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
@@ -13,7 +15,9 @@ root.render(
   <StrictMode>
       <ThemeContextProvider>
         <UserContextProvider>
-          <App />
+          <QueryClientProvider client={client} >
+            <App />
+          </QueryClientProvider>
         </UserContextProvider>
       </ThemeContextProvider>
   </StrictMode>

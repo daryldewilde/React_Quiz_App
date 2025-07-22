@@ -1,10 +1,13 @@
+import { ButtonComponentProps } from "../types/types";
 
-
-
-export default function Button(props:any){
+// Reusable button component with pink theme
+export default function Button({text, ...props}:ButtonComponentProps){
     return(
-        <button type="submit" className="bg-pink-600 text-white px-4 md:px-6 py-2 md:py-3 rounded-lg font-medium hover:bg-pink-700 text-sm md:text-base">
-            {props.text}
+        <button 
+            {...props} 
+            className="bg-pink-600 text-white px-4 md:px-6 py-2 md:py-3 rounded-lg font-medium hover:bg-pink-700 text-sm md:text-base"
+        >
+            {text}
         </button>
     )
 }
