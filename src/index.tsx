@@ -5,6 +5,7 @@ import {ThemeContextProvider} from './contexts/theme';
 import {UserContextProvider} from './contexts/user';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import reportWebVitals from './reportWebVitals';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 const client = new QueryClient()
 const root = ReactDOM.createRoot(
@@ -17,6 +18,7 @@ root.render(
         <UserContextProvider>
           <QueryClientProvider client={client} >
             <App />
+            <ReactQueryDevtools initialIsOpen={false} />
           </QueryClientProvider>
         </UserContextProvider>
       </ThemeContextProvider>
