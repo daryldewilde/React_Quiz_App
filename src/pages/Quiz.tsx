@@ -28,7 +28,7 @@ export default function Quiz(){
 
     // Fetch questions from API using React Query
     const  { data, isLoading, isError, error} = useQuery<question[]>({
-        queryKey:['questions'],
+        queryKey:['questions', category],
         queryFn:fetchQuestions,
         gcTime:gcTime,
         staleTime:staleTime

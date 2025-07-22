@@ -13,8 +13,8 @@ export const queryParams = {
 };
 
 // React Query cache configuration
-export const gcTime = 1000 * 60 * 20; // 20 mins - how long to keep data in cache
-export const staleTime = 1000 * 60 * 20; // 20 mins - how long data is considered fresh
+export const gcTime = 1000 * 60 * 30; // 30 mins - how long to keep data in cache
+export const staleTime = 1000 * 60 * 30; // 30 mins - how long data is considered fresh
 
 // Categories available for quizzes
 export const categories = [
