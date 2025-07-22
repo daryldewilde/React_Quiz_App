@@ -1,4 +1,4 @@
-import './styles/App.css';
+import './App.css';
 import Home from './pages/Home'
 import Leaderboard from './pages/Leaderboard'
 import Quiz from './pages/Quiz'

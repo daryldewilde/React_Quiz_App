@@ -6,7 +6,7 @@ import Main from "../components/Main";
 import Button from "../components/Button";
 import { useThemeContext } from "../hooks/useThemeContext";
 import { useUserContext } from "../hooks/useUserContext";
-import { question } from "../types/types";
+import type { question } from "../types/types";
 import { List, ListItem, Typography , Box} from "@mui/material";
 import ReactConfetti from "react-confetti";
 
@@ -66,7 +66,7 @@ export default function Result() {
     // Map over failed questions to create list elements showing correct answers
     const failedQuestionsElements = failedQuestions.map( (q ) => {
         // Loop through all possible answers to find the correct one
-        for (let answer in q.answers) {
+        for (const answer in q.answers) {
             if (q?.correct_answers[`${answer}_correct`] === "true") {
             return(
                 <ListItem className={`border rounded-xl mb-4 p-4 ${

@@ -1,4 +1,4 @@
-import { ButtonComponentProps } from "../types/types";
+import type { ButtonComponentProps } from "../types/types";
 
 // Reusable button component with pink theme
 export default function Button({text, ...props}:ButtonComponentProps){

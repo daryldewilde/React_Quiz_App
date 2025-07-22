@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { UserContext } from '../contexts/user';
-import { UserContextType } from '../types/types';
+import type { UserContextType } from '../types/types';
 
 // Custom hook to use user context safely
 export function useUserContext(): UserContextType {

@@ -9,7 +9,7 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { useThemeContext } from "../hooks/useThemeContext";
 import {baseUrl, queryParams, gcTime, staleTime} from "../api";
-import { question } from "../types/types"; // Import the question type
+import type { question } from "../types/types"; // Import the question type
 import { useUserContext } from "../hooks/useUserContext";
 
 export default function Quiz(){
@@ -74,7 +74,11 @@ export default function Quiz(){
             setQuestionIndex(newIndex);
             setSelectedAnswer("");
             setQuestion(questions[newIndex]);
-            newIndex ===  questions.length -1 ? setButtonText("Finish"):setButtonText("Next Question");
+            if (newIndex ===  questions.length -1) {
+                setButtonText("Finish");
+            } else {
+                setButtonText("Next Question");
+            }
             
         } else {
             // Quiz completed save the results navigate to results page
@@ -107,7 +111,7 @@ export default function Quiz(){
     }
 
     // Generate answer options for current question
-    let options = []
+    const options = []
     if (question && question.answers) {
         for (const key in question.answers) {
             if (question.answers[key] !== undefined && question.answers[key] !== null){

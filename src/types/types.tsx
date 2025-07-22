@@ -1,4 +1,4 @@
-import { ComponentProps } from "react";
+import type { ComponentProps } from "react";
 
 // Button component props extending native button props
 export interface ButtonComponentProps extends ComponentProps<"button"> {

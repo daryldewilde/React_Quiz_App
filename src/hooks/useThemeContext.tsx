@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { ThemeContext } from '../contexts/theme';
-import { ThemeContextType } from '../types/types';
+import type { ThemeContextType } from '../types/types';
 
 // Custom hook to use theme context safely
 export function useThemeContext(): ThemeContextType {

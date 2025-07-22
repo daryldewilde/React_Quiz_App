@@ -2,7 +2,7 @@
 import logo from '../assets/logo.png';
 import { useContext } from 'react';
 import { ThemeContext } from '../contexts/theme';
-import { ThemeContextType } from '../types/types';
+import type { ThemeContextType } from '../types/types';
 import { Link } from 'react-router-dom';
 
 // Header component with navigation and theme toggle

@@ -1,7 +1,7 @@
 
 import { useContext } from 'react';
 import { ThemeContext } from '../contexts/theme';
-import { ThemeContextType } from '../types/types';
+import type { ThemeContextType } from '../types/types';
 import { Box } from '@mui/system';
 
 export default function Footer() {

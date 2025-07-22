@@ -6,7 +6,7 @@ export const baseUrl = "https://quizapi.io/api/v1/questions";
 
 // Default query parameters for fetching quiz questions
 export const queryParams = {
-    apiKey : process.env.REACT_APP_QUIZ_API_KEY,
+    apiKey : import.meta.env.VITE_QUIZ_API_KEY,
     limit: 20,
     difficulty: "Easy",
     multiple_correct_answers: "false"

@@ -3,7 +3,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Main from "../components/Main";
 import { useThemeContext } from "../hooks/useThemeContext";
-import {Score, LeaderboardData} from "../types/types";
+import type {Score, LeaderboardData} from "../types/types";
 
 export default function Leaderboard() {
     const themeContext = useThemeContext();

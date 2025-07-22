@@ -15,7 +15,7 @@ export default function Subjects(){
     const userContext  = useUserContext()
 
     // Generate category selection components
-    let catComponents = categories.map((category:string) => (
+    const catComponents = categories.map((category:string) => (
         <CategorySelect key={category} cat={category} id={category}/>
     ));
     

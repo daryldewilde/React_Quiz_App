@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { ThemeContext } from '../contexts/theme';
-import { ThemeContextType} from '../types/types';
-import { ReactNode } from "react";
+import type { ThemeContextType} from '../types/types';
+import type { ReactNode } from "react";
 
 // Main layout component with theme-aware styling
 export default function Main(props:{children:ReactNode}){
