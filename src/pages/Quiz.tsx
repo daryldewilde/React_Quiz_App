@@ -1,38 +1,61 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Main from "../components/Main";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Button from "../components/Button";
-import { useState, useEffect} from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useThemeContext } from "../hooks/useThemeContext";
-import {baseUrl, queryParams, gcTime, staleTime} from "../api";
-import type { question } from "../types/types"; // Import the question type
+import { quizBaseUrl, queryParams, gcTime, staleTime, sendScores, fetchScores } from "../api";
+import type { question } from "../types/types";
 import { useUserContext } from "../hooks/useUserContext";
 
-export default function Quiz(){
-    const {category}  = useParams<string>();
-    const [questionIndex, setQuestionIndex] = useState<number>(0) 
-    const [questions, setQuestions] = useState<question[]>([])
-    const [question, setQuestion] = useState<question | null>(null) 
-    const themeContext = useThemeContext() 
-    const [selectedAnswer, setSelectedAnswer] = useState<string>()
-    const [score, setScore] = useState<number>(0)
-    const [failedQuestions, setFailedQuestions] =  useState<question[]>([])
-    const [buttonText, setButtonText] = useState("Next Question")
-    const navigate = useNavigate()
-    const userContext = useUserContext()
-    
+export default function Quiz() {
+    // Hooks
+    const { category } = useParams<string>();
+    const navigate = useNavigate();
+    const themeContext = useThemeContext();
+    const userContext = useUserContext();
+    const queryClient = useQueryClient();
 
-    // Fetch questions from API using React Query
-    const  { data, isLoading, isError, error} = useQuery<question[]>({
-        queryKey:['questions', category],
-        queryFn:fetchQuestions,
-        gcTime:gcTime,
-        staleTime:staleTime
-    })
+    // State
+    const [questionIndex, setQuestionIndex] = useState<number>(0);
+    const [questions, setQuestions] = useState<question[]>([]);
+    const [question, setQuestion] = useState<question | null>(null);
+    const [selectedAnswer, setSelectedAnswer] = useState<string>("");
+    const [score, setScore] = useState<number>(0);
+    const [failedQuestions, setFailedQuestions] = useState<question[]>([]);
+    const [buttonText, setButtonText] = useState("Next Question");
+
+    // Fetch questions from the API
+    async function fetchQuestions() {
+        const response = await axios.get(quizBaseUrl, {
+            params: { ...queryParams, category: category }
+        });
+        return response.data;
+    }
+
+    // Queries and mutations
+    const { data, isLoading, isError, error } = useQuery<question[]>({
+        queryKey: ['questions', category],
+        queryFn: fetchQuestions,
+        gcTime: gcTime,
+        staleTime: staleTime
+    });
+
+    const { data: scoreData } = useQuery({
+        queryKey: ["leaderboardData"],
+        queryFn: fetchScores,
+        gcTime: 1000 * 20
+    });
+
+    const leaderboardMutation = useMutation({
+        mutationFn: sendScores,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["leaderboardData"] });
+        }
+    });
 
     // Initialize quiz when data is loaded
     useEffect(() => {
@@ -41,13 +64,6 @@ export default function Quiz(){
             setQuestion(data[0]);
         }
     }, [data]);
-
-    // Fetch questions from the API
-    function fetchQuestions(){ 
-        return axios.get(baseUrl, {
-            params: {...queryParams, category: category}
-        }).then(response => response.data)
-    }
       
     // Handle form submission and move to next question
     function nextQuestion(formData:FormData) {
@@ -82,9 +98,14 @@ export default function Quiz(){
             
         } else {
             // Quiz completed save the results navigate to results page
-            const leaderboardData = JSON.parse(localStorage.getItem('leaderboard') || '{}');
+            if (failed && question) {
+                setFailedQuestions(prevFailedQuestions => [...prevFailedQuestions, question]);
+            }
+            
+            console.log("scoreData:", scoreData);
+            const leaderboardData = JSON.parse(scoreData.score_data);
 
-            if (category){
+            if (category) {
                 if (!leaderboardData[category]) {
                     leaderboardData[category] = [];
                 }
@@ -94,8 +115,10 @@ export default function Quiz(){
                     score: newScore,
                     totalQuestions: questions.length
                 });
+                console.log(leaderboardData +"on quiz ohh before mutate")
+
                 
-                localStorage.setItem('leaderboard', JSON.stringify(leaderboardData));
+                leaderboardMutation.mutate(JSON.stringify(leaderboardData));
             }
            
 
@@ -131,8 +154,8 @@ export default function Quiz(){
                             value={key} 
                             name="answers" 
                             className="w-4 h-4 mr-2 md:mr-3" 
-                            onChange={(e)=>{e.target.checked = !e.target.checked}} 
                             checked={selectedAnswer === key}
+                            readOnly
                         />
                         <label 
                             htmlFor={`bordered-radio-${key}`} 

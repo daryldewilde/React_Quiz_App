@@ -1,4 +1,5 @@
 import './App.css';
+import Custom404 from './pages/Custom404';
 import Home from './pages/Home'
 import Leaderboard from './pages/Leaderboard'
 import Quiz from './pages/Quiz'
@@ -25,6 +26,8 @@ function App() {
                 
                 {/* Subjects page - category selection */}
                 <Route path='/subjects' element={<Subjects />} />
+                {/*Back to home page in case of url mismatch */}
+                <Route path='*' element={<Custom404 />} />
             </Routes>
         </BrowserRouter>
     );

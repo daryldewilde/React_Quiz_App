@@ -4,6 +4,8 @@ import Footer from "../components/Footer";
 import Main from "../components/Main";
 import { useThemeContext } from "../hooks/useThemeContext";
 import type {Score, LeaderboardData} from "../types/types";
+import { useQuery } from "@tanstack/react-query";
+import { fetchScores } from "../api";
 
 export default function Leaderboard() {
     const themeContext = useThemeContext();
@@ -12,35 +14,45 @@ export default function Leaderboard() {
     const [scores, setScores] = useState<Score[]>([]);
 
 
-    // Load available subjects when component mounts
-    useEffect(() => {
-        const leaderboardData: LeaderboardData = JSON.parse(localStorage.getItem('leaderboard') || '{}');
-        const availableSubjects = Object.keys(leaderboardData);
-        setSubjects(availableSubjects);
-        
-        // Set first subject as default if available
-        if (availableSubjects.length > 0) {
-            setSelectedSubject(availableSubjects[0]);
-        }
-    }, []);
+    const {data, isLoading, isError, error} = useQuery({
+        queryKey:["leaderboardData"],
+        queryFn:fetchScores,
+        gcTime:1000 * 20 //keep data for  20 seconds
+    })
 
+      console.log(data)
+    
+    // Load available subjects when component mounts
+        useEffect(() => {
+        if (data) {
+            const leaderboardData: LeaderboardData = JSON.parse(data.score_data);
+            const availableSubjects = Object.keys(leaderboardData);
+            setSubjects(availableSubjects);
+            
+            // Set first subject as default if available
+            if (availableSubjects.length > 0) {
+                setSelectedSubject(availableSubjects[0]);
+            }
+        }
+    }, [data]); // Add data as dependency
 
     // Load scores for selected subject
     useEffect(() => {
-        if (selectedSubject) {
-            const leaderboardData: LeaderboardData = JSON.parse(localStorage.getItem('leaderboard') || '{}');
+        if (selectedSubject && data) {
+            const leaderboardData: LeaderboardData = JSON.parse(data.score_data);
             const subjectScores = leaderboardData[selectedSubject] || [];
+            console.log(subjectScores+"subject scores")
             // Sort scores from highest to lowest
             const sortedScores = [...subjectScores].sort((a, b) => b.score/b.totalQuestions - a.score/a.totalQuestions);
             setScores(sortedScores);
         }
-    }, [selectedSubject]);
+    }, [selectedSubject, data]); 
 
     return (
         <>
             <Header />
             <Main>
-                <div className="container mx-auto px-4">
+                {scores.length > 0 && <div className="container mx-auto px-4">
                     <h1 className={`text-2xl md:text-3xl font-bold mb-6 text-center ${themeContext.theme === "dark" ? "text-white" : "text-gray-900"}`}>
                         Leaderboard
                     </h1>
@@ -93,7 +105,38 @@ export default function Leaderboard() {
                             </div>
                         ))}
                     </div>
-                </div>
+                </div>}
+                {/* when the scores array is empty*/}
+                {scores.length == 0 && (
+                     <div className="text-center">
+                        <p className={`text-lg ${
+                            themeContext.theme === "dark" ? "text-white" : "text-gray-900"
+                        }`}>
+                            No leaderboard data available yet. Be the first to take a quiz!
+                        </p>
+                    </div>
+                )}
+                {/* Loading state */}
+                {isLoading &&(
+                    <div className="text-center">
+                        <p className={`text-lg ${
+                            themeContext.theme === "dark" ? "text-white" : "text-gray-900"
+                        }`}>
+                            Loading question...
+                        </p>
+                    </div>
+                )}
+
+                {/* Error state */}
+                {isError &&(
+                    <div className="text-center">
+                        <p className={`text-lg ${
+                            themeContext.theme === "dark" ? "text-white" : "text-gray-900"
+                        }`}>
+                            {error.message}
+                        </p>
+                    </div>
+                )}
             </Main>
             <Footer />
         </>

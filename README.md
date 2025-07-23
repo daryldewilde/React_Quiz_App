@@ -1,23 +1,22 @@
 # React Quiz App
 
-A quiz application built with React and TypeScript that includes scoring, theme switching, and leaderboard functionality.
+A modern quiz application built with React 19 and TypeScript featuring real-time scoring, theme switching, and competitive leaderboards.
 
 ## Live Demo
 
-🔗 **[View Live Application](https://daryl-react-quiz.vercel.app/)**
+🔗 **[View Live Application](https://daryl-react-vite-quiz-app.vercel.app/)**
 
 ## Features
 
-- **Interactive Quiz Interface** - Multiple choice questions with feedback
-- **Scoring System** - Track performance across quiz attempts
-- **Leaderboard** - Compare scores with other users by category
-- **Theme Toggle** - Switch between dark and light modes
-- **Responsive Design** - Works on mobile, tablet, and desktop devices
-- **API Integration** - Fetches questions from QuizAPI.io
-- **React Query** - Data fetching with caching
-- **Local Storage** - Persistent user data and scores
-- **Material-UI Components** - UI component library
-- **Results Review** - View correct answers for missed questions
+- **Interactive Quiz Interface** - Multiple choice questions with instant feedback
+- **Smart Scoring System** - Track performance across quiz attempts and categories
+- **Global Leaderboard** - Compete with users worldwide by category
+- **Dark/Light Theme** - Seamless theme switching with persistent preferences
+- **Fully Responsive** - Optimized for mobile, tablet, and desktop
+- **Real-time Data** - Live quiz questions from QuizAPI.io
+- **Advanced Caching** - Fast loading with TanStack Query
+- **Results Review** - Detailed feedback on incorrect answers
+- **User Progress** - Persistent user data and score history
 
 ## Quick Start
 
@@ -34,21 +33,28 @@ A quiz application built with React and TypeScript that includes scoring, theme 
 
 3. **Start the development server:**
    ```bash
-   npm start
+   npm run dev
    ```
 
 4. **Open in browser:**
-   Navigate to [http://localhost:3000](http://localhost:3000)
+   Navigate to [http://localhost:5173](http://localhost:5173)
 
 ## API Configuration
 
-1. Go to [QuizAPI.io](https://quizapi.io/) and create a free account
-2. Get your API key from the dashboard
-3. Create a file called `.env` in your project root
-4. Add this line: `REACT_APP_QUIZ_API_KEY=your_api_key_here`
-5. Restart your app
+1. Get your free API key from [QuizAPI.io](https://quizapi.io/)
+2. Create a `.env` file in your project root
+3. Create an account on [Backendless API](https://backendless.com/) and set up a database named `quiz_app` with a leaderboard record
+   
+4. Add your configuration:
+   ```env
+   VITE_QUIZ_API_KEY=your_api_key_here
+   VITE_LEADERBOARD_BASE_URL=your_leaderboard_url
+   VITE_LEADERBOARD_APP_ID=your_app_id
+   VITE_SCORE_REST_API_KEY=your_rest_api_key
+   VITE_LEADERBOARD_OBJECT_ID=your_object_id
+   ```
+5. Restart your development server
 
-**No API key? No problem!** The app works perfectly without it.
 
 ## How It Works
 
@@ -90,39 +96,40 @@ src/
 
 ## Technologies Used
 
-- **React 18** - JavaScript library for building user interfaces
-- **TypeScript** - Typed superset of JavaScript
-- **React Router** - Declarative routing for React
-- **React Query** - Data fetching and state management
-- **Material-UI** - React component library
-- **Tailwind CSS** - Utility-first CSS framework
-- **QuizAPI.io** - External quiz questions API
+- **React 19** - Latest React with enhanced performance
+- **TypeScript** - Type-safe development
+- **Vite** - Lightning-fast build tool
+- **TanStack Query** - Powerful data fetching and caching
+- **React Router** - Client-side routing
+- **Material-UI** - Modern React components
+- **Tailwind CSS** - Utility-first styling
+- **Axios** - HTTP client for API calls
 
 ## Development
+
+### Available Scripts
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build
+- `npm run lint` - Run ESLint
 
 ### Build for Production
 ```bash
 npm run build
 ```
 
-
-### Available Scripts
-- `npm start` - Runs the app in development mode
-- `npm run build` - Builds the app for production
-
 ## Learning Opportunities
 
-This project demonstrates common React development patterns:
+This project showcases modern React development patterns:
 
-- **React Hooks** - useState, useEffect, useContext, and custom hooks
-- **TypeScript Integration** - Type safety in React applications
-- **Context API** - State management for theme and user data
-- **React Router** - Single page application navigation
-- **React Query** - Server state management and caching
-- **Material-UI** - Integration with component libraries
-- **Local Storage** - Client-side data persistence
-- **Responsive Design** - Mobile-friendly layouts with Tailwind CSS
-- **API Integration** - External data fetching and error handling
+- **Modern React Hooks** - useState, useEffect, useContext, and custom hooks
+- **TypeScript Integration** - Full type safety throughout the application
+- **Context API** - Global state management for themes and user data
+- **TanStack Query** - Advanced server state management and caching
+- **React Router v7** - Modern SPA navigation patterns
+- **Component Composition** - Reusable and maintainable UI components
+- **API Integration** - External data fetching with error handling
+- **Responsive Design** - Mobile-first approach with Tailwind CSS
 
 ## Contributing
 
