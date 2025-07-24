@@ -107,7 +107,7 @@ export default function Leaderboard() {
                     </div>
                 </div>}
                 {/* when the scores array is empty*/}
-                {scores.length == 0 && (
+                {scores.length == 0 && !isLoading &&(
                      <div className="text-center">
                         <p className={`text-lg ${
                             themeContext.theme === "dark" ? "text-white" : "text-gray-900"
