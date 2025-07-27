@@ -1,15 +1,10 @@
 import type { ComponentProps } from "react";
 
+export type LeaderboardData = Record<string, Score[]>;
+
 // Button component props extending native button props
 export interface ButtonComponentProps extends ComponentProps<"button"> {
     text:string
-}
-
-// Define the structure of a quiz question
-export interface question{
-    answers:{[key:string]:string},
-    correct_answers:{[key:string]:string},
-    question:string
 }
 
 export type ThemeContextType = {
@@ -22,14 +17,30 @@ export type UserContextType = {
   setUser: (user: string) => void;
 };
 
+// Define the structure of a quiz question
+export interface question {
+    question_text: string;
+    answer_options: string;
+    correct_answer: string;
+    ojectId: string;
+}
+
+export interface failedQuestion extends question {
+    selectedAnswer: string;
+}
+
 // Define types for the leaderboard data
 export interface Score {
     name: string;
     score: number;
-    totalQuestions: number; 
+    total_questions: number;
+    objectId: string;
+    category?: {
+        name: string;
+        objectId: string;
+    }; 
 }
 
-export interface LeaderboardData {
-    [key: string]: Score[];
-}
+
+
 

@@ -1,33 +1,45 @@
-import { useEffect, useState} from "react";
+
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import Main from "../components/Main";
+import PageLayout from "../components/PageLayout";
 import Button from "../components/Button";
 import { useThemeContext } from "../hooks/useThemeContext";
 import { useUserContext } from "../hooks/useUserContext";
-import type { question } from "../types/types";
-import { List, ListItem, Typography , Box} from "@mui/material";
+import { List, ListItem, Typography, Box } from "@mui/material";
 import ReactConfetti from "react-confetti";
-
-
+import type {failedQuestion} from "../types/types"; // Import the failedQuestion type
 
 export default function Result() {
-    // Get theme and user data from context
+    // Hooks
     const themeContext = useThemeContext();
     const userContext = useUserContext();
-    
-    // Get score and category from URL parameters
     const location = useLocation();
-    const score:string = location.state.score;
-    const category:string = location.state.category;
-    const failedQuestions:question[] = location.state.failedQuestions;
-    const totalQuestions:number = location.state.totalQuestions ;
-    const [displayName, setDisplayName] = useState<string>("");
-    
-    // Navigation hook
     const navigate = useNavigate();
-       
+    const [displayName, setDisplayName] = useState<string>("");
+
+    // State from navigation
+    const score: string = location.state.score;
+    const category: string = location.state.category;
+    // failedQuestions now includes selectedAnswer property
+    const failedQuestions: failedQuestion[] = location.state.failedQuestions;
+    const totalQuestions: number = location.state.totalQuestions;
+
+    // Save user name to display
+    useEffect(() => {
+        setDisplayName(userContext.user);
+        return () => {
+            localStorage.setItem("name", "");
+            userContext.setUser("");
+        };
+    }, []);
+
+    // Navigate to leaderboard page
+    function goToLeaderBoard() {
+        navigate("/leaderboard");
+    }
+
     // Set message based on score using switch case for 4 different ranges
     let result = {
         heading: "",
@@ -35,7 +47,7 @@ export default function Result() {
     };
 
     const scorePercentage = Math.floor((parseInt(score) / totalQuestions) * 100);
-    
+
     switch (true) {
         case scorePercentage >= 90:
             result = {
@@ -64,60 +76,56 @@ export default function Result() {
     }
 
     // Map over failed questions to create list elements showing correct answers
-    const failedQuestionsElements = failedQuestions.map( (q ) => {
-        // Loop through all possible answers to find the correct one
-        for (const answer in q.answers) {
-            if (q?.correct_answers[`${answer}_correct`] === "true") {
-            return(
-                <ListItem className={`border rounded-xl mb-4 p-4 ${
-                themeContext.theme === "dark" 
-                    ? "bg-gray-700 border-gray-600" 
-                    : "bg-white border-gray-300"
-                }`}>
+    const failedQuestionsElements = failedQuestions.map((question) => {
+        const answer_options: Record<string, string> = JSON.parse(question.answer_options);
+        const correctAnswer = answer_options[question.correct_answer];
+        const userAnswer = question.selectedAnswer ? answer_options[question.selectedAnswer] : undefined;
+        return (
+            <ListItem
+                className={`border rounded-xl mb-4 p-4 ${
+                    themeContext.theme === "dark"
+                        ? "bg-gray-700 border-gray-600"
+                        : "bg-white border-gray-300"
+                }`}
+            >
                 <Box className="w-full">
-                    <Typography variant="body1" component="p" className={`font-semibold mb-2 ${
-                    themeContext.theme === "dark" ? "text-white" : "text-gray-900"
-                    }`}>
-                    ❓ Question: {q.question}
+                    <Typography
+                        variant="body1"
+                        component="p"
+                        className={`font-semibold mb-2 ${
+                            themeContext.theme === "dark" ? "text-white" : "text-gray-900"
+                        }`}
+                    >
+                        ❓ Question: {question.question_text}
                     </Typography>
-                    <Typography variant="body1" component="p" className={`${
-                    themeContext.theme === "dark" ? "text-green-300" : "text-green-600"
-                    }`}>
-                    ✅ Answer: {q.answers[answer]}
+                    <Typography
+                        variant="body1"
+                        component="p"
+                        className={`mb-1 ${
+                            themeContext.theme === "dark" ? "text-red-300" : "text-red-600"
+                        }`}
+                    >
+                        {userAnswer !== undefined ? `❌ Your answer: ${userAnswer}` : "No answer selected"}
                     </Typography>
-                </Box >
-                </ListItem>
-            )
-            } 
-        }
-
-        return <p>Couldn't get the correct answer</p>
-    })
-
-
-    // Save user name to display
-    useEffect(() => {
-        setDisplayName(userContext.user)
-
-        return () => {
-            localStorage.setItem("name", "");
-            userContext.setUser("");
-        };
-       
-    }, []);
-
-
-
-    // Navigate to leaderboard page
-    function goToLeaderBoard() {
-        navigate("/leaderboard");
-    }
+                    <Typography
+                        variant="body1"
+                        component="p"
+                        className={`mb-1 ${
+                            themeContext.theme === "dark" ? "text-green-300" : "text-green-600"
+                        }`}
+                    >
+                        {correctAnswer ? `✅ Correct answer: ${correctAnswer}` : "Couldn't get the correct answer"}
+                    </Typography>
+                </Box>
+            </ListItem>
+        );
+    });
 
     return (
         <>
             <Header />
-            <Main>
-                {scorePercentage >=50 && <ReactConfetti />}
+            <PageLayout>
+                {scorePercentage >= 50 && <ReactConfetti />}
                 <div className="text-center">
                     <h1 className={`text-2xl md:text-3xl font-bold mb-2 ${themeContext.theme === "dark" ? "text-white" : "text-gray-900"}`}>
                         {category}
@@ -129,14 +137,14 @@ export default function Result() {
                         {result.message}
                     </p>
                     <h2 className={`text-xl md:text-xl font-semibold mb-2 ${themeContext.theme === "dark" ? "text-white" : "text-gray-900"}`}>
-                         Here are the correct answers to the questions you missed 
+                        Here are the correct answers to the questions you missed
                     </h2>
                     <List className="list-none">
                         {failedQuestionsElements}
                     </List>
                     <Button text="View Leaderboard" onClick={goToLeaderBoard} />
                 </div>
-            </Main>
+            </PageLayout>
             <Footer />
         </>
     );

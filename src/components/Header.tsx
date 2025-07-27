@@ -22,7 +22,7 @@ export default function Header() {
     
     return (
         <header>
-            <nav className={`flex flex-col md:flex-row items-center justify-between p-3 md:p-5 border-b fixed top-0 w-full ${
+            <nav className={`flex flex-col md:flex-row items-center justify-between p-3 md:p-5 border-b fixed top-0 w-full mb-10 ${
                 themeContext.theme === "dark" 
                     ? "bg-gray-900 border-gray-700 text-white" 
                     : "bg-gray-800 border-gray-300 text-white"
