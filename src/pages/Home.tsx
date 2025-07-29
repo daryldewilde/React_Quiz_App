@@ -1,11 +1,13 @@
 
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import UsernameForm from "../components/UsernameForm";
 import PageLayout from "../components/PageLayout";
 import { useUserContext } from "../hooks/useUserContext";
+import {Typography } from "@mui/material";
 
 // Home page component - entry point for the quiz app
 export default function Home() {
@@ -23,8 +25,11 @@ export default function Home() {
         <>
             <Header />
             <PageLayout>
-                {/* Show username form only if no user is logged in */}
-                {userContext.user === "" && <UsernameForm />}
+                    <Typography variant="h4" sx={{ mb: 3, fontWeight: "bold", textAlign: "center" }}>
+                        Welcome to the Quiz App
+                    </Typography>
+                    {/* Show username form only if no user is logged in */}
+                    {userContext.user === "" && <UsernameForm />}
             </PageLayout>
             <Footer />
         </>

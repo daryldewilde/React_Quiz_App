@@ -1,13 +1,24 @@
-import type { ButtonComponentProps } from "../types/types";
 
-// Reusable button component with pink theme
-export default function Button({text, ...props}:ButtonComponentProps){
-    return(
-        <button 
-            {...props} 
-            className="bg-pink-600 text-white px-4 md:px-6 py-2 md:py-3 rounded-lg font-medium hover:bg-pink-700 text-sm md:text-base cursor-pointer"
+import type { ButtonComponentProps } from '../types/types';
+import { Button as MUIButton } from '@mui/material';
+
+export default function Button({ text, ...props }: ButtonComponentProps) {
+    return (
+        <MUIButton
+            {...props}
+            sx={{
+                color:"white",
+                backgroundColor: '#ec4899',
+                px: { xs: 2, md: 3 },
+                py: { xs: 1, md: 1.5 },
+                borderRadius: 2,
+                fontWeight: 500,
+                fontSize: { xs: 14, md: 16 },
+                textTransform: 'none',
+                '&:hover': { backgroundColor: '#db2777' }
+            }}
         >
             {text}
-        </button>
-    )
+        </MUIButton>
+    );
 }

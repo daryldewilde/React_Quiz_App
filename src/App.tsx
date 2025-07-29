@@ -1,10 +1,11 @@
 import './App.css';
+import AdminDashboard from './AdminDashboard';
 import Custom404 from './pages/Custom404';
 import Home from './pages/Home'
 import Leaderboard from './pages/Leaderboard'
 import Quiz from './pages/Quiz'
 import Result from './pages/Result'
-import Subjects from './pages/Subjects';
+import Categories from './pages/Categories';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 // Main App component with routing configuration
@@ -25,7 +26,11 @@ function App() {
                 <Route path='/result' element={<Result />} />
                 
                 {/* Subjects page - category selection */}
-                <Route path='/subjects' element={<Subjects />} />
+                <Route path='/subjects' element={<Categories />} />
+
+                 {/* Admin pages for react admin */}
+                <Route path='/admin/*' element={<AdminDashboard />} />
+
                 {/*Back to home page in case of url mismatch */}
                 <Route path='*' element={<Custom404 />} />
             </Routes>

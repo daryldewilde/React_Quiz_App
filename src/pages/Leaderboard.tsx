@@ -1,12 +1,14 @@
 
 import { useState } from "react";
+
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import PageLayout from "../components/PageLayout";
 import { useThemeContext } from "../hooks/useThemeContext";
 import { useQuery } from "@tanstack/react-query";
-import { getAllCategories, getAllScores } from "../api";
+import { getAllCategories, getAllScores } from "../api/api";
 import type { Score } from "../types/types";
+import { Box, Typography, Select, MenuItem, FormControl, InputLabel, CircularProgress } from "@mui/material";
 
 
 export default function Leaderboard() {
@@ -43,93 +45,81 @@ export default function Leaderboard() {
         <>
             <Header />
             <PageLayout>
-                <div className="container mx-auto px-4">
-                    <h1 className={`text-2xl md:text-3xl font-bold mb-6 text-center ${themeContext.theme === "dark" ? "text-white" : "text-gray-900"}`}>
+                    <Typography variant="h4" sx={{ mb: 3, fontWeight: "bold", textAlign: "center" }}>
                         Leaderboard
-                    </h1>
-                    <div className="mb-6">
-                        <select
+                    </Typography>
+                    <FormControl sx={{ mb: 3, width: "50%" }}>
+                        <InputLabel 
+                            id="subject-select-label"
+                            sx={{ color: themeContext.theme === 'dark' ? 'grey.300' : 'grey.800' }}
+                        >
+                            Subject
+                        </InputLabel>
+                        <Select
+                            labelId="subject-select-label"
                             value={selectedSubject}
+                            label="Subject"
                             onChange={(e) => setSelectedSubject(e.target.value)}
-                            className={`w-full max-w-xs p-2 rounded border ${
-                                themeContext.theme === "dark"
-                                    ? "bg-gray-700 border-gray-600 text-white"
-                                    : "bg-white border-gray-300 text-gray-900"
-                            }`}
+                            sx={{
+                                color: themeContext.theme === 'dark' ? 'grey.100' : 'grey.900',
+                                backgroundColor: themeContext.theme === 'dark' ? '#232946' : '#fff',
+                            }}
+                            MenuProps={{
+                                PaperProps: {
+                                    sx: {
+                                        bgcolor: themeContext.theme === 'dark' ? '#232946' : '#fff',
+                                        color: themeContext.theme === 'dark' ? 'grey.100' : 'grey.900',
+                                    }
+                                }
+                            }}
                         >
                             {subjects.map((subject: string) => (
-                                <option key={subject} value={subject}>
+                                <MenuItem key={subject} value={subject}>
                                     {subject.charAt(0).toUpperCase() + subject.slice(1)}
-                                </option>
+                                </MenuItem>
                             ))}
-                        </select>
-                    </div>
-
-                    {scores.length > 0 ? (
-                        <div className={`rounded-lg overflow-hidden ${themeContext.theme === "dark" ? "bg-gray-800" : "bg-white"}`}>
-                            {scores.map((score, index) => (
-                                <div
-                                    key={index}
-                                    className={`flex items-center justify-between p-4 ${
-                                        index % 2 === 0
-                                            ? themeContext.theme === "dark" ? "bg-gray-700" : "bg-gray-50"
-                                            : ""
-                                    }`}
-                                >
-                                    <div className="flex items-center">
-                                        <span className={`font-bold mr-4 ${
-                                            themeContext.theme === "dark" ? "text-gray-300" : "text-gray-600"
-                                        }`}>
-                                            #{index + 1}
-                                        </span>
-                                        <span className={
-                                            themeContext.theme === "dark" ? "text-white" : "text-gray-900"
-                                        }>
-                                            {score.name}
-                                        </span>
-                                    </div>
-                                    <span className={`font-bold ${
-                                        themeContext.theme === "dark" ? "text-pink-400" : "text-pink-600"
-                                    }`}>
-                                        {score.score}/{score["total_questions"]}
-                                    </span>
-                                </div>
-                            ))}
-                        </div>
-                    ) : (
-                        !isLoading && (
-                            <div className="text-center">
-                                <p className={`text-lg ${
-                                    themeContext.theme === "dark" ? "text-white" : "text-gray-900"
-                                }`}>
-                                    No scores yet for <span className="font-semibold">{selectedSubject ? selectedSubject.charAt(0).toUpperCase() + selectedSubject.slice(1) : "this category"}</span>. Be the first to take a quiz in this category!
-                                </p>
-                            </div>
-                        )
-                    )}
-                </div>
-
-                {/* Loading state */}
-                {isLoading && (
-                    <div className="text-center">
-                        <p className={`text-lg ${
-                            themeContext.theme === "dark" ? "text-white" : "text-gray-900"
-                        }`}>
-                            Loading question...
-                        </p>
-                    </div>
-                )}
-
-                {/* Error state */}
-                {isError && (
-                    <div className="text-center">
-                        <p className={`text-lg ${
-                            themeContext.theme === "dark" ? "text-white" : "text-gray-900"
-                        }`}>
+                        </Select>
+                    </FormControl>
+                    {isLoading ? (
+                        <Box sx={{ display: "flex", justifyContent: "center", my: 4 }}>
+                            <CircularProgress />
+                        </Box>
+                    ) : isError ? (
+                        <Typography color="error" align="center">
                             {error.message}
-                        </p>
-                    </div>
-                )}
+                        </Typography>
+                    ) : scores.length > 0 ? (
+                        <Box sx={{ borderRadius: 2, overflow: "hidden", bgcolor: themeContext.theme === "dark" ? "grey.900" : "background.paper" }}>
+                            {scores.map((score, index) => (
+                                <Box
+                                    key={index}
+                                    sx={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "space-between",
+                                        p: 2,
+                                        bgcolor: index % 2 === 0 ? (themeContext.theme === "dark" ? "#2c3650ff" : "grey.100") : undefined
+                                    }}
+                                >
+                                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                                        <Typography sx={{ fontWeight: "bold", mr: 2, color: themeContext.theme === "dark" ? "grey.300" : "grey.600" }}>
+                                            #{index + 1}
+                                        </Typography>
+                                        <Typography sx={{ color: themeContext.theme === "dark" ? "common.white" : "grey.900" }}>
+                                            {score.name}
+                                        </Typography>
+                                    </Box>
+                                    <Typography sx={{ fontWeight: "bold", color: themeContext.theme === "dark" ? "pink.400" : "pink.600" }}>
+                                        {score.score}/{score["total_questions"]}
+                                    </Typography>
+                                </Box>
+                            ))}
+                        </Box>
+                    ) : (
+                        <Typography align="center" sx={{ mt: 2 }}>
+                            No scores yet for <b>{selectedSubject ? selectedSubject.charAt(0).toUpperCase() + selectedSubject.slice(1) : "this category"}</b>. Be the first to take a quiz in this category!
+                        </Typography>
+                    )}
             </PageLayout>
             <Footer />
         </>

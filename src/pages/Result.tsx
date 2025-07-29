@@ -126,24 +126,12 @@ export default function Result() {
             <Header />
             <PageLayout>
                 {scorePercentage >= 50 && <ReactConfetti />}
-                <div className="text-center">
-                    <h1 className={`text-2xl md:text-3xl font-bold mb-2 ${themeContext.theme === "dark" ? "text-white" : "text-gray-900"}`}>
-                        {category}
-                    </h1>
-                    <h1 className={`text-2xl md:text-3xl font-bold mb-2 ${themeContext.theme === "dark" ? "text-white" : "text-gray-900"}`}>
-                        {result.heading} {displayName}, you scored {score}/{totalQuestions}
-                    </h1>
-                    <p className={`mb-6 md:mb-8 text-sm md:text-base ${themeContext.theme === "dark" ? "text-gray-300" : "text-gray-600"}`}>
-                        {result.message}
-                    </p>
-                    <h2 className={`text-xl md:text-xl font-semibold mb-2 ${themeContext.theme === "dark" ? "text-white" : "text-gray-900"}`}>
-                        Here are the correct answers to the questions you missed
-                    </h2>
-                    <List className="list-none">
-                        {failedQuestionsElements}
-                    </List>
+                    <Typography variant="h4" sx={{ mb: 2, fontWeight: "bold" }}>{category}</Typography>
+                    <Typography variant="h5" sx={{ mb: 2, fontWeight: "bold" }}>{result.heading} {displayName}, you scored {score}/{totalQuestions}</Typography>
+                    <Typography sx={{ mb: 3, color: themeContext.theme === "dark" ? "grey.300" : "grey.600" }}>{result.message}</Typography>
+                    <Typography variant="h6" sx={{ mb: 2, fontWeight: "bold" }}>Here are the correct answers to the questions you missed</Typography>
+                    <List sx={{ listStyle: "none", p: 0 }}>{failedQuestionsElements}</List>
                     <Button text="View Leaderboard" onClick={goToLeaderBoard} />
-                </div>
             </PageLayout>
             <Footer />
         </>

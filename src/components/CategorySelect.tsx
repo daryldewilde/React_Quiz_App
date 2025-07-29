@@ -1,6 +1,8 @@
+
 import { useNavigate } from "react-router-dom";
 import { useUserContext } from "../hooks/useUserContext";
 import { useThemeContext } from "../hooks/useThemeContext";
+import { Box, Typography } from '@mui/material';
 
 
 
@@ -19,13 +21,27 @@ export default function CategorySelect(props:{cat:string,id:string}){
     }
     
     return(
-        <div 
-            id={props.id} 
-            onClick={navigateToQuizPage} 
-            className={`p-4 md:p-6 text-center cursor-pointer border rounded-lg hover:bg-opacity-80 ${themeContext.theme === "dark" ? "bg-gray-700 border-gray-600 text-white hover:bg-gray-600" : "bg-white border-gray-300 text-gray-900 hover:bg-gray-50"}`}
+        <Box
+            id={props.id}
+            onClick={navigateToQuizPage}
+            sx={{
+                p: { xs: 2, md: 3 },
+                textAlign: 'center',
+                cursor: 'pointer',
+                border: `1px solid ${themeContext.theme === 'dark' ? '#374151' : '#d1d5db'}`,
+                borderRadius: 2,
+                bgcolor: themeContext.theme === 'dark' ? '#374151' : '#fff',
+                color: themeContext.theme === 'dark' ? '#fff' : '#111827',
+                '&:hover': {
+                    bgcolor:'#7998c7ff',
+                },
+                mb: 1
+            }}
         >
-            <h3 className="font-medium text-base md:text-lg">{props.cat}</h3>
-            <p className={`text-xs md:text-sm mt-1 ${themeContext.theme === "dark" ? "text-gray-300" : "text-gray-600"}`}>Click to start</p>
-        </div>
+            <Typography sx={{ fontWeight: 500, fontSize: { xs: 16, md: 18 } }}>{props.cat}</Typography>
+            <Typography sx={{ fontSize: { xs: 12, md: 14 }, mt: 1, color: themeContext.theme === 'dark' ? '#d1d5db' : '#4b5563' }}>
+                Click to start
+            </Typography>
+        </Box>
     )
 }

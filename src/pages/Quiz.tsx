@@ -8,9 +8,10 @@ import { useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useThemeContext } from "../hooks/useThemeContext";
 import { useUserContext } from "../hooks/useUserContext";
-import { createScore, getAllCategories, getAllQuestionsByCategory, linkScoreToCategory } from "../api";
+import { createScore, getAllCategories, getAllQuestionsByCategory, linkScoreToCategory } from "../api/api";
 import type { failedQuestion, question } from "../types/types";
 import type { JSX } from "react";
+import { Box, Typography } from "@mui/material";
 
 
 export default function Quiz() {
@@ -162,57 +163,44 @@ export default function Quiz() {
             ));
     }
 
+    function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        nextQuestion();
+    }
+
     return (
         <>
             <Header />
             <PageLayout>
                 {/* Quiz form with questions and answers */}
                 {question && (
-                    <form action={nextQuestion} className='text-center'>
-                        <h1 className={`text-xl md:text-2xl font-bold mb-3 md:mb-4 ${
-                            themeContext.theme === "dark" ? "text-white" : "text-gray-900"
-                        }`}>
-                            {category}
-                        </h1>
-                        <p className={`text-base md:text-lg mb-4 md:mb-6 ${
-                            themeContext.theme === "dark" ? "text-gray-300" : "text-gray-700"
-                        }`}>
-                            {question.question_text}
-                        </p>
-                        <div className="flex flex-col gap-2 md:gap-3 mb-4 md:mb-6">
+                    <form onSubmit={handleSubmit} style={{ textAlign: "center" }}>
+                        <Typography variant="h4" sx={{ mb: 2, fontWeight: "bold" }}>{category}</Typography>
+                        <Typography sx={{ mb: 3, color: themeContext.theme === "dark" ? "grey.300" : "grey.700" }}>{question.question_text}</Typography>
+                        <Box sx={{ display: "flex", flexDirection: "column", gap: 2, mb: 4 }}>
                             {options}
-                        </div>
-                        <div className="text-center">
-                            <Button text={buttonText} />
-                            <p className={`text-xs md:text-sm mt-2 md:mt-3 ${
-                                themeContext.theme === "dark" ? "text-gray-400" : "text-gray-600"
-                            }`}>
-                                Question {questionIndex + 1} of {questions.length}
-                            </p>
-                        </div>
+                        </Box>
+                        <Button text={buttonText} type="submit" />
+                        <Typography sx={{ mt: 2, color: themeContext.theme === "dark" ? "grey.400" : "grey.600",fontWeight:"bold" }}>
+                            Question {questionIndex + 1} of {questions.length}
+                        </Typography>
                     </form>
                 )}
-
                 {/* Loading state */}
                 {isLoading && (
-                    <div className="text-center">
-                        <p className={`text-lg ${
-                            themeContext.theme === "dark" ? "text-white" : "text-gray-900"
-                        }`}>
+                    <Box sx={{ textAlign: "center", my: 4 }}>
+                        <Typography variant="body1" sx={{ color: themeContext.theme === "dark" ? "common.white" : "grey.900" }}>
                             Loading question...
-                        </p>
-                    </div>
+                        </Typography>
+                    </Box>
                 )}
-
                 {/* Error state */}
                 {isError && (
-                    <div className="text-center">
-                        <p className={`text-lg ${
-                            themeContext.theme === "dark" ? "text-white" : "text-gray-900"
-                        }`}>
+                    <Box sx={{ textAlign: "center", my: 4 }}>
+                        <Typography variant="body1" sx={{ color: themeContext.theme === "dark" ? "common.white" : "grey.900" }}>
                             {error.message}
-                        </p>
-                    </div>
+                        </Typography>
+                    </Box>
                 )}
             </PageLayout>
             <Footer />

@@ -15,13 +15,9 @@ export default function Custom404() {
         <>
             <Header />
             <PageLayout>
-                <Box
-                    className={`flex flex-col items-center justify-center gap-4 ${
-                        themeContext.theme === "dark" ? "text-white" : "text-gray-900"
-                    }`}
-                >
-                    <Typography variant="body1">404</Typography>
-                    <Typography variant="body1">OOPS we cannot find the page you are looking for</Typography>
+                <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 2, minHeight: 300 }}>
+                    <Typography variant="h2" sx={{ color: themeContext.theme === "dark" ? "common.white" : "grey.900" }}>404</Typography>
+                    <Typography variant="body1" sx={{ color: themeContext.theme === "dark" ? "common.white" : "grey.900" }}>OOPS we cannot find the page you are looking for</Typography>
                     <Button text="Go back to home page" onClick={() => { navigate("/"); }} />
                 </Box>
             </PageLayout>

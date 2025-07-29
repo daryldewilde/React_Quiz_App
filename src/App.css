@@ -1,46 +1,7 @@
 
 body {
-    font-family: "Karla", sans-serif;
+    font-family: 'Times New Roman', Times, serif, "Karla", sans-serif;
     margin: 0;
 }
-
-
-
-/* ========================
-   SOCIAL MEDIA LINKS
-   ======================== */
-
-/* Container for social media icons */
-.social-links {
-    display: flex;
-    gap: 16px;
-    align-items: center;
-}
-
-/* Individual social media link styling - circular icons */
-.social-links a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    color: #666;
-    font-size: 1.2rem;
-}
-
-/* Hover effect for social links - lift and scale with glow */
-.social-links a:hover {
-    transform: translateY(-2px) scale(1.2);
-    box-shadow: 0 4px 12px rgba(247, 247, 248, 0.2);
-}
-
-/* Platform-specific hover colors for brand recognition */
-.linkedin { color: #0077b5 !important; } /* LinkedIn blue */
-.whatsapp { color: #25d366 !important; } /* WhatsApp green */
-.youtube { color: #ff0000 !important; }  /* YouTube red */
-.github { color: #a8a8a8 !important; }      /* GitHub gray */
 
 

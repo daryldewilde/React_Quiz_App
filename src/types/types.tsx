@@ -1,9 +1,9 @@
-import type { ComponentProps } from "react";
+import type { ButtonProps } from "@mui/material";
 
 export type LeaderboardData = Record<string, Score[]>;
 
 // Button component props extending native button props
-export interface ButtonComponentProps extends ComponentProps<"button"> {
+export interface ButtonComponentProps extends ButtonProps{
     text:string
 }
 
