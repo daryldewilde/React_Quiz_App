@@ -1,6 +1,5 @@
 import {StrictMode} from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
 import App from './App';
 import {ThemeContextProvider} from './contexts/theme';
 import {UserContextProvider} from './contexts/user';

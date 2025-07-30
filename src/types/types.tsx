@@ -22,7 +22,7 @@ export interface question {
     question_text: string;
     answer_options: string;
     correct_answer: string;
-    ojectId: string;
+    objectId?: string;
 }
 
 export interface failedQuestion extends question {

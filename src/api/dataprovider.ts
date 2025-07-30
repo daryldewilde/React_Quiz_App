@@ -8,7 +8,8 @@ import type { question, Score } from "../types/types";
 
 const dataProvider = {
     // READ: List all records
-    getList: async (resource: string) => {
+    getList: async (resource: string, params:{filter:Record<string,string>}) => {
+        console.log(params)
         switch (resource) {
             case 'Categories': {
                 const categories = await getAllCategories();
@@ -16,6 +17,18 @@ const dataProvider = {
                     id: cat.objectId,
                     name: cat.name
                 }));
+
+                 if (params.filter.q) {
+                    const searchText = params.filter.q.toLowerCase()
+                    const filteredCategories = mappedCategories.filter((cat: { objectId: string; name: string }) => {
+                        return JSON.stringify(cat).toLowerCase().includes(searchText)
+                    })
+
+                    return {
+                        data: filteredCategories,
+                        total:filteredCategories.length
+                    }
+                }
                 return {
                     data: mappedCategories,
                     total: categories.length
@@ -23,11 +36,22 @@ const dataProvider = {
             }
             case 'Questions': {
                 const questions: question[] = await getAllQuestions();
+               
                 const mappedQuestions = questions.map((q: question & { category?: { objectId?: string } }) => ({
                     ...q,
-                    id: q.ojectId,
+                    id: q.objectId,
                     Category_id: q.category?.objectId
                 }));
+
+                 if (params.filter.q) {
+                    const searchText = params.filter.q.toLowerCase()
+                    const filteredQuestions = mappedQuestions.filter(q => JSON.stringify(q).toLowerCase().includes(searchText))
+                    return {
+                        data: filteredQuestions,
+                        total:filteredQuestions.length
+                    }
+                }
+
                 return {
                     data: mappedQuestions,
                     total: questions.length
@@ -35,6 +59,18 @@ const dataProvider = {
             }
             case 'Scores': {
                 const scores: Score[] = await getAllScores();
+
+                if (params.filter.q) {
+                    const searchText = params.filter.q.toLowerCase()
+                    const filteredScores = scores.filter((score) => {
+                        return JSON.stringify(score).toLowerCase().includes(searchText)
+                    })
+                    return{
+                        data:filteredScores,
+                        total:filteredScores.length
+                    }
+                }
+
                 return {
                     data: scores.map((s: Score) => ({
                         ...s,
@@ -59,6 +95,7 @@ const dataProvider = {
             }
             case 'Questions': {
                 const question = await getQuestionById(idStr);
+                console.log("mapped questions",question)
                 return { data: { ...question, id: question.objectId, Category_id: question.category?.objectId } };
             }
             case 'Scores': {
@@ -74,8 +111,8 @@ const dataProvider = {
     getMany: async (resource: string, params: { ids: (string | number)[] }) => {
         switch (resource) {
             case 'Categories': {
-                const all = await getAllCategories();
-                const mapped = all.map((cat: { objectId: string; name: string }) => ({
+                const categories = await getAllCategories();
+                const mapped = categories.map((cat: { objectId: string; name: string }) => ({
                     id: cat.objectId,
                     name: cat.name
                 }));

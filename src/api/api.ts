@@ -23,7 +23,7 @@ export const getAllQuestionsByCategory = async (category:string):Promise<questio
 };
 
 export const getQuestionById = async (id: string) => {
-  const res = await axios.get(`${FULL_BASE_URL}/Questions/${id}`);
+  const res = await axios.get(`${FULL_BASE_URL}/Questions/${id}?loadRelations=category`);
   return res.data;
 };
 
@@ -95,7 +95,7 @@ export const createScore = async (scoreObj: { name: string; score: number; total
 };
 
 export const getScoreById = async (id: string) => {
-  const res = await axios.get(`${FULL_BASE_URL}/Scores/${id}`);
+  const res = await axios.get(`${FULL_BASE_URL}/Scores/${id}?loadRelations=category`);
   return res.data;
 };
 

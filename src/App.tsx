@@ -1,5 +1,5 @@
 import './App.css';
-import AdminDashboard from './AdminDashboard';
+import AdminInterface from './AdminInterface';
 import Custom404 from './pages/Custom404';
 import Home from './pages/Home'
 import Leaderboard from './pages/Leaderboard'
@@ -29,7 +29,7 @@ function App() {
                 <Route path='/subjects' element={<Categories />} />
 
                  {/* Admin pages for react admin */}
-                <Route path='/admin/*' element={<AdminDashboard />} />
+                <Route path='/admin/*' element={<AdminInterface />} />
 
                 {/*Back to home page in case of url mismatch */}
                 <Route path='*' element={<Custom404 />} />

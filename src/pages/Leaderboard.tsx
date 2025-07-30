@@ -34,12 +34,19 @@ export default function Leaderboard() {
     if (!selectedSubject && subjects.length > 0) {
         setSelectedSubject(subjects[0]);
     }
+    // Filter and sort scores for the selected subject
+    let scores: Score[] = [];
+    if (selectedSubject && scoreData) {
+        // Filter scores by selected subject
+        scores = scoreData.filter((score: Score) => score.category?.name === selectedSubject);
 
-    // Derive scores for selected subject
-    const scores = selectedSubject && scoreData
-        ? [...scoreData.filter((score: Score) => (score.category?.name || "") === selectedSubject)]
-            .sort((a, b) => b.score / b.total_questions - a.score / a.total_questions)
-        : [];
+        // Sort scores by percentage (highest first)
+        scores.sort((a, b) => {
+            const aPercent = a.score / a.total_questions;
+            const bPercent = b.score / b.total_questions;
+            return bPercent - aPercent;
+        });
+    }
 
     return (
         <>

@@ -1,4 +1,4 @@
-import { ReferenceField } from "react-admin";
+import { DeleteButton, ReferenceField } from "react-admin";
 import { Show, SimpleShowLayout, TextField } from "react-admin";
 
 export default function ScoreShow(){
@@ -12,6 +12,7 @@ export default function ScoreShow(){
                 </ReferenceField>
                 <TextField source="score"/>
                 <TextField source="total_questions"/>
+                <DeleteButton />
             </SimpleShowLayout>
         </Show>
     )

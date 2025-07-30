@@ -41,6 +41,8 @@ export default function Header() {
                         <MUIButton component={Link} to="/" sx={{ color: '#fff', fontSize: { xs: 14, md: 16 }, '&:hover': { color: '#f472b6' } }}>Home</MUIButton>
                         <MUIButton component={Link} to="/subjects" sx={{ color: '#fff', fontSize: { xs: 14, md: 16 }, '&:hover': { color: '#f472b6' } }}>Subjects</MUIButton>
                         <MUIButton component={Link} to="/leaderboard" sx={{ color: '#fff', fontSize: { xs: 14, md: 16 }, '&:hover': { color: '#f472b6' } }}>Leaderboard</MUIButton>
+                        <MUIButton component={Link} to="/admin" sx={{ color: '#fff', fontSize: { xs: 14, md: 16 }, '&:hover': { color: '#f472b6' } }}>Admin</MUIButton>
+
                     </Box>
                     <IconButton onClick={switchTheme} sx={{ p: 1.2, borderRadius: 2, '&:hover': { bgcolor: '#374151' } }}>
                         {themeContext?.theme === "light" ? (

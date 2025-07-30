@@ -1,4 +1,4 @@
-import { Show, SimpleShowLayout, TextField } from "react-admin";
+import { DeleteButton, EditButton, Show, SimpleShowLayout, TextField } from "react-admin";
 
 export default function CategoryShow(){
     return(
@@ -6,6 +6,8 @@ export default function CategoryShow(){
             <SimpleShowLayout>
                 <TextField source="id"/>
                  <TextField source="name"/>
+                <EditButton />
+                <DeleteButton />
             </SimpleShowLayout>
         </Show>
     )

@@ -1,4 +1,4 @@
-import { ReferenceField } from "react-admin";
+import { DeleteButton, EditButton, ReferenceField } from "react-admin";
 import { Show, SimpleShowLayout, TextField } from "react-admin";
 
 export default function QuestionShow(){
@@ -8,10 +8,12 @@ export default function QuestionShow(){
                 <TextField source="id"/>
                <ReferenceField source="Category_id" reference="Categories">
                                <TextField source="name" />
-                           </ReferenceField>
+                </ReferenceField>
                 <TextField source="question_text"/>
                 <TextField source="answer_options"/>
                 <TextField source="correct_answer"/>
+                <EditButton />
+                <DeleteButton />
             </SimpleShowLayout>
         </Show>
     )
