@@ -13,11 +13,17 @@ import QuestionCreate from "./components/admin/question/QuestionCreate";
 import CategoryIcon from '@mui/icons-material/Category';
 import ScoreIcon from '@mui/icons-material/Score';
 import QuizIcon from '@mui/icons-material/Quiz';
-import AppBar from "./components/admin/AppBar";
+import authProvider from "./api/authProvider";
+import MyLayout from "./components/admin/Layout";
 
 export default function AdminInterface(){
     return (
-        <Admin  appBar={AppBar}  dataProvider={dataProvider} basename="/admin" >
+        <Admin  
+        dataProvider={dataProvider} 
+        basename="/admin" 
+        authProvider={authProvider}
+        layout={MyLayout}
+        >
             {/* Define resources here */}
             <Resource
                 name="Categories"

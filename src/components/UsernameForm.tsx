@@ -1,13 +1,13 @@
 
 import { useNavigate } from 'react-router-dom';
 import { useThemeContext } from '../hooks/useThemeContext';
-import { useUserContext } from '../hooks/useUserContext';
+import { usePlayerContext } from '../hooks/usePlayerContext';
 import Button from "./Button";
 
 export default function UsernameForm() {
     // Get theme and user context using custom hooks
     const themeContext = useThemeContext();
-    const userContext = useUserContext();
+    const playerContext = usePlayerContext();
     const navigate = useNavigate();
 
     // Handle form submission when user starts quiz
@@ -16,7 +16,7 @@ export default function UsernameForm() {
         
         // Save name to localStorage and context
         localStorage.setItem("name", name);
-        userContext.setUser(name);
+        playerContext.setPlayer(name);
         
         // Navigate to subjects page
         navigate("/subjects");

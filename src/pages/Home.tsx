@@ -6,20 +6,22 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import UsernameForm from "../components/UsernameForm";
 import PageLayout from "../components/PageLayout";
-import { useUserContext } from "../hooks/useUserContext";
+import { usePlayerContext } from "../hooks/usePlayerContext";
 import {Typography } from "@mui/material";
 
 // Home page component - entry point for the quiz app
 export default function Home() {
-    const userContext = useUserContext();
+    const playerContext = usePlayerContext();
     const navigate = useNavigate();
-
-    // Redirect to subjects page if user is already logged in
+    // On homepage load, remove any admin credentials from localStorage.
+    // If a player has already entered his name move to subjects.
     useEffect(() => {
-        if (userContext.user !== "") {
+        localStorage.removeItem("user-token");
+        localStorage.removeItem("admin_name");
+        if (playerContext.player !== "") {
             navigate("/subjects");
         }
-    }, [userContext.user, navigate]);
+    }, [playerContext.player, navigate]);
 
     return (
         <>
@@ -29,7 +31,7 @@ export default function Home() {
                         Welcome to the Quiz App
                     </Typography>
                     {/* Show username form only if no user is logged in */}
-                    {userContext.user === "" && <UsernameForm />}
+                    {playerContext.player === "" && <UsernameForm />}
             </PageLayout>
             <Footer />
         </>

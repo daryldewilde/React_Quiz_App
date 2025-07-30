@@ -1,6 +1,6 @@
 
 import { useNavigate } from "react-router-dom";
-import { useUserContext } from "../hooks/useUserContext";
+import { usePlayerContext } from "../hooks/usePlayerContext";
 import { useThemeContext } from "../hooks/useThemeContext";
 import { Box, Typography } from '@mui/material';
 
@@ -9,10 +9,10 @@ import { Box, Typography } from '@mui/material';
 export default function CategorySelect(props:{cat:string,id:string}){
     const navigate = useNavigate()
     const themeContext = useThemeContext()
-    const userContext = useUserContext()
+    const playerContext = usePlayerContext()
     
     function navigateToQuizPage(){
-        if (userContext.user !== "") {
+        if (playerContext.player !== "") {
             navigate(`/quiz/${props.cat}`);
         } else {
             alert("You must Enter your Name to play")

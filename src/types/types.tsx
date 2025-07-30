@@ -12,10 +12,16 @@ export type ThemeContextType = {
   setTheme: (theme: string) => void;
 };
 
-export type UserContextType = {
-  user: string;
-  setUser: (user: string) => void;
+export type PlayerContextType = {
+  player: string;
+  setPlayer: (player: string) => void;
 };
+
+export interface credentials{
+    login?:string,
+    username?:string,
+    password:string
+}
 
 // Define the structure of a quiz question
 export interface question {

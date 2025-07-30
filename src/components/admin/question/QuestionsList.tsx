@@ -18,7 +18,7 @@ export default function QuestionsList(){
             <FunctionField label="answer_options" render={(record) =>`${record.answer_options.substring(0,50)}....`}/>
             <TextField source="correct_answer"/>
             <EditButton />
-            <ShowButton />
+            <ShowButton sx={{ color: 'green' }} />
             <DeleteButton />
         </Datagrid>
     </List>

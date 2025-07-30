@@ -7,7 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import CategorySelect from "../components/CategorySelect";
 import Button from "../components/Button";
 import { useThemeContext } from "../hooks/useThemeContext";
-import { useUserContext } from "../hooks/useUserContext";
+import { usePlayerContext } from "../hooks/usePlayerContext";
 import { useNavigate } from "react-router-dom";
 import { Box, Typography } from "@mui/material";
 
@@ -15,7 +15,7 @@ import { Box, Typography } from "@mui/material";
 export default function Categories() {
     const navigate = useNavigate();
     const themeContext = useThemeContext();
-    const userContext = useUserContext();
+    const playerContext = usePlayerContext();
 
     // Fetch categories dynamically using tanstack query
     const { data: categories, isLoading, isError, error } = useQuery({
@@ -33,7 +33,7 @@ export default function Categories() {
 
     // Navigate to a random quiz category
     function navigateToRandomQuiz() {
-        if (userContext.user !== "") {
+        if (playerContext.player !== "") {
             if (!categories || categories.length === 0) return;
             const randomCategory = categories[Math.floor(Math.random() * categories.length)].name;
             navigate(`/quiz/${randomCategory}`);

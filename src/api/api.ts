@@ -2,17 +2,29 @@
 
 import axios from "axios";
 import { getRandomElements } from "../utils/utils";
-import type { question } from "../types/types";
+import type { credentials, question } from "../types/types";
 
 
 const BASE_URL = import.meta.env.VITE_BASE_URL
+const AUTH_SUBDOMAIN = import.meta.env.VITE_BACKENDLESS_AUTH_SUBDOMAIN
 const BACKENDLESS_APP_ID = import.meta.env.VITE_BACKENDLESS_APP_ID
 const BACKENDLESS_REST_API_KEY = import.meta.env.VITE_BACKENDLESS_REST_API_KEY;
 const DATA_PAGE_SIZE_LIMIT = 100; // Default page size for data fetching
 const QUESTIONS_LIMIT = 20; // Default limit for questions
 
-export const FULL_BASE_URL = `${BASE_URL}/${BACKENDLESS_APP_ID}/${BACKENDLESS_REST_API_KEY}/data`;
+const FULL_BASE_URL = `${BASE_URL}/${BACKENDLESS_APP_ID}/${BACKENDLESS_REST_API_KEY}/data`;
 
+
+// --- Authentication for Admin ---
+export const authenticate = async (credentials:credentials) =>{
+  console.log('authenticating')
+  const payload ={
+    login:credentials.username,
+    password:credentials.password
+  }
+  const res = await axios.post(`${AUTH_SUBDOMAIN}/api/users/login`, payload)
+  return res.data
+}
 
 
 // --- QUESTIONS ---

@@ -6,7 +6,7 @@ import Footer from "../components/Footer";
 import PageLayout from "../components/PageLayout";
 import Button from "../components/Button";
 import { useThemeContext } from "../hooks/useThemeContext";
-import { useUserContext } from "../hooks/useUserContext";
+import { usePlayerContext } from "../hooks/usePlayerContext";
 import { List, ListItem, Typography, Box } from "@mui/material";
 import ReactConfetti from "react-confetti";
 import type {failedQuestion} from "../types/types"; // Import the failedQuestion type
@@ -14,7 +14,7 @@ import type {failedQuestion} from "../types/types"; // Import the failedQuestion
 export default function Result() {
     // Hooks
     const themeContext = useThemeContext();
-    const userContext = useUserContext();
+    const playerContext = usePlayerContext();
     const location = useLocation();
     const navigate = useNavigate();
     const [displayName, setDisplayName] = useState<string>("");
@@ -28,10 +28,10 @@ export default function Result() {
 
     // Save user name to display
     useEffect(() => {
-        setDisplayName(userContext.user);
+        setDisplayName(playerContext.player);
         return () => {
             localStorage.setItem("name", "");
-            userContext.setUser("");
+            playerContext.setPlayer("");
         };
     }, []);
 

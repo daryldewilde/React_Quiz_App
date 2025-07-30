@@ -10,8 +10,8 @@ export default function CategoriesList(){
         <Datagrid rowClick="show">
             <FunctionField label="id" render={(record) =>`${record.id.substring(0,8)}....`}/>
             <TextField source="name"/>
-            <EditButton />
-            <ShowButton />
+                <EditButton />
+            <ShowButton sx={{ color: 'green' }} />
             <DeleteButton />
         </Datagrid>
     </List>

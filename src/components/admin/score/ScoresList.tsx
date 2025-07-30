@@ -17,7 +17,7 @@ export default function ScoresList(){
             </ReferenceField>
             <TextField source="score"/>
             <TextField source="total_questions"/>
-          <ShowButton />
+          <ShowButton sx={{ color: 'green' }} />
           <DeleteButton />
         </Datagrid>
     </List>

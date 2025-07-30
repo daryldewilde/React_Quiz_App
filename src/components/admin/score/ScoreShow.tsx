@@ -12,7 +12,7 @@ export default function ScoreShow(){
                 </ReferenceField>
                 <TextField source="score"/>
                 <TextField source="total_questions"/>
-                <DeleteButton />
+                <DeleteButton sx={{ bgcolor: '#f3f4f6', '&:hover': { bgcolor: '#e0e0e0' } }} />
             </SimpleShowLayout>
         </Show>
     )

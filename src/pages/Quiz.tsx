@@ -7,7 +7,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useThemeContext } from "../hooks/useThemeContext";
-import { useUserContext } from "../hooks/useUserContext";
+import { usePlayerContext } from "../hooks/usePlayerContext";
 import { createScore, getAllCategories, getAllQuestionsByCategory, linkScoreToCategory } from "../api/api";
 import type { failedQuestion, question } from "../types/types";
 import type { JSX } from "react";
@@ -19,7 +19,7 @@ export default function Quiz() {
     const { category } = useParams();
     const navigate = useNavigate();
     const themeContext = useThemeContext();
-    const userContext = useUserContext();
+    const playerContext = usePlayerContext();
 
     // State
     const [questionIndex, setQuestionIndex] = useState<number>(0);
@@ -95,7 +95,7 @@ export default function Quiz() {
             setButtonText(newIndex === questions.length - 1 ? "Finish" : "Next Question");
         } else {
             const payload = {
-                name: userContext.user,
+                name: playerContext.player,
                 score: newScore,
                 total_questions: questions.length
             };

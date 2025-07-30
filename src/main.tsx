@@ -2,7 +2,7 @@ import {StrictMode} from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import {ThemeContextProvider} from './contexts/theme';
-import {UserContextProvider} from './contexts/user';
+import { PlayerContextProvider } from './contexts/player';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
@@ -14,12 +14,12 @@ const root = ReactDOM.createRoot(
 root.render(
   <StrictMode>
       <ThemeContextProvider>
-        <UserContextProvider>
+        <PlayerContextProvider>
           <QueryClientProvider client={client} >
             <App />
             <ReactQueryDevtools initialIsOpen={false} />
           </QueryClientProvider>
-        </UserContextProvider>
+        </PlayerContextProvider>
       </ThemeContextProvider>
   </StrictMode>
 );
