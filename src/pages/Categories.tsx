@@ -18,9 +18,10 @@ export default function Categories() {
     const playerContext = usePlayerContext();
 
     // Fetch categories dynamically using tanstack query
-    const { data: categories, isLoading, isError, error } = useQuery({
+    type Category = { name: string };
+    const { data: categories, isLoading, isError, error } = useQuery<Category[]>({
         queryKey: ["categories"],
-        queryFn: getAllCategories
+        queryFn: () => getAllCategories()
     });
 
     // Debug: log what categories is

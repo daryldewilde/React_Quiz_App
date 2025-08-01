@@ -28,8 +28,8 @@ export const authenticate = async (credentials:credentials) =>{
 
 
 // --- QUESTIONS ---
-export const getAllQuestionsByCategory = async (category:string):Promise<question[]> => {
-  const res = await axios.get(`${FULL_BASE_URL}/Questions?pageSize=${DATA_PAGE_SIZE_LIMIT}&where=category.name='${category}'`);
+export const getAllQuestionsByCategory = async (category:string,pageSize:number = DATA_PAGE_SIZE_LIMIT, offset:number = 0):Promise<question[]> => {
+  const res = await axios.get(`${FULL_BASE_URL}/Questions?pageSize=${pageSize}&offset=${offset}&where=category.name='${category}'`);
   console.log("Fetched Questions:", res.data);
   return getRandomElements(res.data, QUESTIONS_LIMIT);
 };
@@ -39,9 +39,26 @@ export const getQuestionById = async (id: string) => {
   return res.data;
 };
 
-export const getAllQuestions = async ():Promise<question[]> => {
-  const res = await axios.get(`${FULL_BASE_URL}/Questions?loadRelations=category&pageSize=${DATA_PAGE_SIZE_LIMIT}`);
-  console.log("Fetched Questions:", res.data);
+export const getAllQuestions = async ({
+  pageSize = DATA_PAGE_SIZE_LIMIT,
+  offset = 0,
+  contains,
+  sortString
+}: {
+  pageSize?: number;
+  offset?: number;
+  contains?: string;
+  sortString?: string;
+} = {}): Promise<question[]> => {
+  let url = `${FULL_BASE_URL}/Questions?loadRelations=category&pageSize=${pageSize}&offset=${offset}`;
+  if (contains) {
+    const whereClause = encodeURIComponent(`question_text LIKE '%${contains}%' OR answer_options LIKE '%${contains}%' OR correct_answer LIKE '%${contains}%'`);
+    url += `&where=${whereClause}`;
+  }
+  if (sortString) {
+    url += `&sortBy=${encodeURIComponent(sortString)}`;
+  }
+  const res = await axios.get(url);
   return res.data;
 };
 
@@ -60,11 +77,37 @@ export const deleteQuestion = async (id: string) => {
   return res.data;
 };
 
+export const countTotalQuestionsRecords = async (): Promise<number> => {
+  const res = await axios.get(`${FULL_BASE_URL}/Questions?property=Count('objectId')`)
+  return res.data[0].count
+}
+
 
 
 // --- CATEGORIES ---
-export const getAllCategories = async () => {
-  const res = await axios.get(`${FULL_BASE_URL}/Categories?pageSize=${DATA_PAGE_SIZE_LIMIT}`);
+export const getAllCategories = async ({
+  pageSize = DATA_PAGE_SIZE_LIMIT,
+  offset = 0,
+  contains,
+  sortString
+}: {
+  pageSize?: number;
+  offset?: number;
+  contains?: string;
+  sortString?: string;
+} = {}): Promise<[]> => {
+  let url = `${FULL_BASE_URL}/Categories?pageSize=${pageSize}&offset=${offset}`;
+
+  if (contains) {
+    const whereClause = encodeURIComponent(`name LIKE '%${contains}%'`);
+    url += `&where=${whereClause}`;
+  }
+
+  if (sortString) {
+    url += `&sortBy=${encodeURIComponent(sortString)}`;
+  }
+
+  const res = await axios.get(url);
   return res.data;
 };
 
@@ -93,11 +136,33 @@ export const updateCategory = async (id: string, catObj:Record<string,string>) =
   return res.data;
 };
 
+export const countTotalCategoriesRecords = async ():Promise<number> => {
+  const res = await axios.get(`${FULL_BASE_URL}/Categories?property=Count('objectId')`)
+  return res.data[0].count
+}
 
 
 // --- SCORES (LEADERBOARD) ---
-export const getAllScores = async () => {
-  const res = await axios.get(`${FULL_BASE_URL}/Scores?loadRelations=category&pageSize=${DATA_PAGE_SIZE_LIMIT}`);
+export const getAllScores = async ({
+  pageSize = DATA_PAGE_SIZE_LIMIT,
+  offset = 0,
+  contains,
+  sortString
+}: {
+  pageSize?: number;
+  offset?: number;
+  contains?: string;
+  sortString?: string;
+} = {}): Promise<[]> => {
+  let url = `${FULL_BASE_URL}/Scores?loadRelations=category&pageSize=${pageSize}&offset=${offset}`;
+  if (contains) {
+    const whereClause = encodeURIComponent(`name LIKE '%${contains}%' OR score LIKE '%${contains}%'`);
+    url += `&where=${whereClause}`;
+  }
+  if (sortString) {
+    url += `&sortBy=${encodeURIComponent(sortString)}`;
+  }
+  const res = await axios.get(url);
   return res.data;
 };
 
@@ -116,6 +181,10 @@ export const deleteScore = async (id: string) => {
   return res.data;
 };
 
+export const countTotalScoresRecords = async () : Promise<number>=> {
+  const res = await axios.get(`${FULL_BASE_URL}/Scores?property=Count('objectId')`)
+  return res.data[0].count
+}
 
 
 

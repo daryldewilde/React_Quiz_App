@@ -18,13 +18,13 @@ export default function Leaderboard() {
     // Fetch all scores using tanstack query
     const { data: scoreData, isLoading, isError, error } = useQuery({
         queryKey: ["leaderboardscoreData"],
-        queryFn: getAllScores,
+        queryFn: () => getAllScores(),
         gcTime: 1000 * 20
     });
 
     const { data: categories } = useQuery({
         queryKey: ["categories"],
-        queryFn: getAllCategories,
+        queryFn: () => getAllCategories(),
     });
 
     // Derive subjects from categories

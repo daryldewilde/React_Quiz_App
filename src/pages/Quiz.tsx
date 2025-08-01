@@ -54,9 +54,9 @@ export default function Quiz() {
     });
 
     // Fetch categories dynamically using tanstack query
-    const { data: categories } = useQuery({
+    const { data: categories } = useQuery<{ name: string; objectId: string }[]>({
         queryKey: ["categories"],
-        queryFn: getAllCategories
+        queryFn: () => getAllCategories()
     });
 
     const linkScoreToCategoryMutation = useMutation({

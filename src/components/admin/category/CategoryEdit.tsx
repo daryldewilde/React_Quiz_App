@@ -7,7 +7,7 @@ export default function CatergoryEdit(){
             <SimpleForm validate={validateCategoryFunction}>
                 <TextInput source="name" validate={required()}/>
                         <EditButton />
-                <DeleteButton sx={{ bgcolor: '#f3f4f6', '&:hover': { bgcolor: '#e0e0e0' } }} />
+                <DeleteButton />
             </SimpleForm>
         </Edit>
     )

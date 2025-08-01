@@ -4,7 +4,6 @@ import type { ThemeContextType} from '../types/types';
 import type { ReactNode } from "react";
 import { Box } from '@mui/material';
 
-// Page layout component with theme-aware styling
 export default function PageLayout(props: { children: ReactNode }) {
     const themeContext = useContext(ThemeContext) as ThemeContextType;
     return (

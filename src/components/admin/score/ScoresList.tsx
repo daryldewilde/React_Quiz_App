@@ -1,4 +1,5 @@
 import { Datagrid, DeleteButton, FunctionField, List, ReferenceField, SearchInput, ShowButton, TextField } from "react-admin";
+import CustomDeleteAll from "../CustomDeleteAll";
 
 
 
@@ -9,7 +10,7 @@ import { Datagrid, DeleteButton, FunctionField, List, ReferenceField, SearchInpu
 export default function ScoresList(){
     return(
     <List filters={scoresFilters}>
-        <Datagrid rowClick="show">
+        <Datagrid rowClick="show"  bulkActionButtons={<CustomDeleteAll />}>
             <FunctionField label="id" render={(record) =>`${record.id.substring(0,8)}....`}/>
             <TextField source="name"/>
             <ReferenceField source="Category_id" reference="Categories">
@@ -17,7 +18,7 @@ export default function ScoresList(){
             </ReferenceField>
             <TextField source="score"/>
             <TextField source="total_questions"/>
-          <ShowButton sx={{ color: 'green' }} />
+          <ShowButton sx={{ color: 'cyan' }} />
           <DeleteButton />
         </Datagrid>
     </List>

@@ -1,83 +1,91 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
     getAllCategories, getCategoryById, updateCategory, deleteCategory, createCategory,
     getAllQuestions, getQuestionById, updateQuestion, deleteQuestion, createQuestion,
-    getAllScores, getScoreById, deleteScore, linkQuestionToCategory
+    getAllScores, getScoreById, deleteScore, linkQuestionToCategory,
+    countTotalQuestionsRecords, countTotalScoresRecords, countTotalCategoriesRecords
 } from "./api";
 import type { question, Score } from "../types/types";
+import type { DataProvider, GetListParams, GetListResult, GetManyParams, GetManyResult, GetOneParams, GetOneResult, DeleteParams, DeleteResult, CreateParams, CreateResult, UpdateParams, UpdateResult, DeleteManyParams, DeleteManyResult } from "react-admin";
 
-
-const dataProvider = {
-    // READ: List all records
-    getList: async (resource: string, params:{filter:Record<string,string>}) => {
-        console.log(params)
+const dataProvider: DataProvider = {
+    getList: async (resource: string, params: GetListParams): Promise<GetListResult<any>> => {
         switch (resource) {
             case 'Categories': {
-                const categories = await getAllCategories();
-                const mappedCategories = categories.map((cat: { objectId: string; name: string }) => ({
+                const pageSize = params.pagination?.perPage ?? 10;
+                const offset = ((params.pagination?.page ?? 1) - 1) * pageSize;
+                let sortString;
+                if (params.sort?.field === "id" || params.sort?.field === "Category_id") {
+                    sortString = undefined;
+                } else {
+                    sortString = `\`${params.sort?.field}\` ${params.sort?.order}`;
+                }
+                let categories;
+                if (params.filter?.q) {
+                    const searchText = params.filter.q.toLowerCase();
+                    categories = await getAllCategories({ pageSize, offset, contains: searchText, sortString });
+                } else {
+                    categories = await getAllCategories({ pageSize, offset, sortString });
+                }
+                const mappedCategories = categories!.map((cat: { objectId: string; name: string }) => ({
                     id: cat.objectId,
                     name: cat.name
                 }));
-
-                 if (params.filter.q) {
-                    const searchText = params.filter.q.toLowerCase()
-                    const filteredCategories = mappedCategories.filter((cat: { objectId: string; name: string }) => {
-                        return JSON.stringify(cat).toLowerCase().includes(searchText)
-                    })
-
-                    return {
-                        data: filteredCategories,
-                        total:filteredCategories.length
-                    }
-                }
                 return {
                     data: mappedCategories,
-                    total: categories.length
+                    total: await countTotalCategoriesRecords()
                 };
             }
             case 'Questions': {
-                const questions: question[] = await getAllQuestions();
-               
-                const mappedQuestions = questions.map((q: question & { category?: { objectId?: string } }) => ({
+                const pageSize = params.pagination?.perPage ?? 10;
+                const offset = ((params.pagination?.page ?? 1) - 1) * pageSize;
+                let sortString;
+                if (params.sort?.field === "id" || params.sort?.field === "Category_id") {
+                    sortString = undefined;
+                } else {
+                    sortString = `\`${params.sort?.field}\` ${params.sort?.order}`;
+                }
+                let questions;
+                if (params.filter?.q) {
+                    const searchText = params.filter.q.toLowerCase();
+                    questions = await getAllQuestions({ pageSize, offset, contains: searchText, sortString });
+                } else {
+                    questions = await getAllQuestions({ pageSize, offset, sortString });
+                }
+                const mappedQuestions = questions!.map((q: question & { category?: { objectId?: string } }) => ({
                     ...q,
                     id: q.objectId,
                     Category_id: q.category?.objectId
                 }));
-
-                 if (params.filter.q) {
-                    const searchText = params.filter.q.toLowerCase()
-                    const filteredQuestions = mappedQuestions.filter(q => JSON.stringify(q).toLowerCase().includes(searchText))
-                    return {
-                        data: filteredQuestions,
-                        total:filteredQuestions.length
-                    }
-                }
-
                 return {
                     data: mappedQuestions,
-                    total: questions.length
+                    total: await countTotalQuestionsRecords()
                 };
             }
             case 'Scores': {
-                const scores: Score[] = await getAllScores();
-
-                if (params.filter.q) {
-                    const searchText = params.filter.q.toLowerCase()
-                    const filteredScores = scores.filter((score) => {
-                        return JSON.stringify(score).toLowerCase().includes(searchText)
-                    })
-                    return{
-                        data:filteredScores,
-                        total:filteredScores.length
-                    }
+                const pageSize = params.pagination?.perPage ?? 10;
+                const offset = ((params.pagination?.page ?? 1) - 1) * pageSize;
+                let sortString;
+                if (params.sort?.field === "id" || params.sort?.field === "Category_id") {
+                    sortString = undefined;
+                } else {
+                    sortString = `\`${params.sort?.field}\` ${params.sort?.order}`;
                 }
-
+                let scores;
+                if (params.filter?.q) {
+                    const searchText = params.filter.q.toLowerCase();
+                    scores = await getAllScores({ pageSize, offset, contains: searchText, sortString });
+                } else {
+                    scores = await getAllScores({ pageSize, offset, sortString });
+                }
+                const mappedScores = scores!.map((s: Score) => ({
+                    ...s,
+                    id: s.objectId,
+                    Category_id: s.category?.objectId
+                }));
                 return {
-                    data: scores.map((s: Score) => ({
-                        ...s,
-                        id: s.objectId,
-                        Category_id: s.category?.objectId
-                    })),
-                    total: scores.length
+                    data: mappedScores,
+                    total: await countTotalScoresRecords()
                 };
             }
             default:
@@ -85,8 +93,7 @@ const dataProvider = {
         }
     },
 
-    // READ: Get one record by ID
-    getOne: async (resource: string, params: { id: string | number }) => {
+    getOne: async (resource: string, params: GetOneParams): Promise<GetOneResult<any>> => {
         const idStr = typeof params.id === 'string' ? params.id : String(params.id);
         switch (resource) {
             case 'Categories': {
@@ -95,7 +102,6 @@ const dataProvider = {
             }
             case 'Questions': {
                 const question = await getQuestionById(idStr);
-                console.log("mapped questions",question)
                 return { data: { ...question, id: question.objectId, Category_id: question.category?.objectId } };
             }
             case 'Scores': {
@@ -107,8 +113,7 @@ const dataProvider = {
         }
     },
 
-    // READ: Get many records by IDs (for ReferenceField/ReferenceInput)
-    getMany: async (resource: string, params: { ids: (string | number)[] }) => {
+    getMany: async (resource: string, params: GetManyParams): Promise<GetManyResult<any>> => {
         switch (resource) {
             case 'Categories': {
                 const categories = await getAllCategories();
@@ -126,29 +131,27 @@ const dataProvider = {
         }
     },
 
-    //DELETE delete a recprd
-    delete: async (resource: string, params: { id: string | number }) => {
-    const idStr = typeof params.id === 'string' ? params.id : String(params.id);
-    switch (resource) {
-        case 'Categories': {
-            const deleted = await deleteCategory(idStr);
-            return { data: { ...deleted, id: params.id } };
+    delete: async (resource: string, params: DeleteParams): Promise<DeleteResult<any>> => {
+        const idStr = typeof params.id === 'string' ? params.id : String(params.id);
+        switch (resource) {
+            case 'Categories': {
+                const deleted = await deleteCategory(idStr);
+                return { data: { ...deleted, id: params.id } };
+            }
+            case 'Questions': {
+                const deleted = await deleteQuestion(idStr);
+                return { data: { ...deleted, id: params.id } };
+            }
+            case 'Scores': {
+                const deleted = await deleteScore(idStr);
+                return { data: { ...deleted, id: params.id } };
+            }
+            default:
+                throw new Error(`Unsupported resource: ${resource}`);
         }
-        case 'Questions': {
-            const deleted = await deleteQuestion(idStr);
-            return { data: { ...deleted, id: params.id } };
-        }
-        case 'Scores': {
-            const deleted = await deleteScore(idStr);
-            return { data: { ...deleted, id: params.id } };
-        }
-        default:
-            throw new Error(`Unsupported resource: ${resource}`);
-    }
-},
+    },
 
-    // CREATE: Create a new record
-    create: async (resource: string, params: { data: Record<string, string> }) => {
+    create: async (resource: string, params: CreateParams): Promise<CreateResult<any>> => {
         switch (resource) {
             case 'Categories': {
                 const { name } = params.data;
@@ -159,36 +162,32 @@ const dataProvider = {
                 const { Category_id, ...reqObj } = params.data;
                 const newQ = await createQuestion(reqObj);
                 if (Category_id) {
-                    await linkQuestionToCategory(newQ.ojectId, Category_id);
+                    await linkQuestionToCategory(newQ.objectId, Category_id);
                 }
-                return { data: { ...newQ, id: newQ.ojectId } };
+                return { data: { ...newQ, id: newQ.objectId } };
             }
             default:
                 throw new Error(`Unsupported resource: ${resource}`);
         }
     },
 
-    // UPDATE: Update a record
-    update: async (resource: string, params: { id: string; data: Record<string, string> }) => {
+    update: async (resource: string, params: UpdateParams): Promise<UpdateResult<any>> => {
         switch (resource) {
             case 'Categories': {
                 const { name } = params.data;
-                const updatedCat = await updateCategory(params.id, { name });
+                const updatedCat = await updateCategory(params.id as string, { name });
                 return { data: { ...updatedCat, id: updatedCat.objectId } };
             }
             case 'Questions': {
-                const updatedQ = await updateQuestion(params.id, params.data);
-                return { data: { ...updatedQ, id: updatedQ.ojectId } };
+                const updatedQ = await updateQuestion(params.id as string, params.data);
+                return { data: { ...updatedQ, id: updatedQ.objectId } };
             }
             default:
                 throw new Error(`Unsupported resource: ${resource}`);
         }
     },
 
- 
-
-    // DELETE: Delete many records
-    deleteMany: async (resource: string, params: { ids: (string | number)[] }) => {
+    deleteMany: async (resource: string, params: DeleteManyParams): Promise<DeleteManyResult<any>> => {
         const ids = params.ids;
         switch (resource) {
             case 'Categories':
@@ -205,7 +204,7 @@ const dataProvider = {
         }
     },
 
-     getManyReference: async () => {
+    getManyReference: async () => {
         throw new Error("getManyReference not implemented");
     },
 
@@ -214,5 +213,4 @@ const dataProvider = {
     }
 };
 
-
-export default dataProvider
+export default dataProvider;

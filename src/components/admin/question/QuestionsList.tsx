@@ -1,4 +1,5 @@
-import { Datagrid, DeleteButton, EditButton, FunctionField, List, ReferenceField, SearchInput, ShowButton, TextField} from 'react-admin';
+import { Datagrid, DeleteButton, EditButton, List, ReferenceField, SearchInput, ShowButton, TextField} from 'react-admin';
+import CustomDeleteAll from '../CustomDeleteAll';
 
  
 export default function QuestionsList(){
@@ -9,16 +10,16 @@ export default function QuestionsList(){
 
     return(
     <List  filters={QuestionsFilters}>
-        <Datagrid rowClick="show" >
-            <FunctionField label="id" render={(record) =>`${record.id.substring(0,8)}....`}/>
-            <ReferenceField source="Category_id" reference="Categories">
-                <TextField source="name" />
+        <Datagrid rowClick="show" bulkActionButtons={<CustomDeleteAll />}>
+            <TextField source="id" />
+            <ReferenceField source="Category_id" reference="Categories" sortable={false}>
+            <TextField source="name" />
             </ReferenceField>
-            <FunctionField label="question_text" render={(record) =>`${record.question_text.substring(0,50)}....`}/>
-            <FunctionField label="answer_options" render={(record) =>`${record.answer_options.substring(0,50)}....`}/>
-            <TextField source="correct_answer"/>
+            <TextField source="question_text" />
+            <TextField source="answer_options" />
+            <TextField source="correct_answer" />
             <EditButton />
-            <ShowButton sx={{ color: 'green' }} />
+            <ShowButton sx={{ color: 'cyan' }} />
             <DeleteButton />
         </Datagrid>
     </List>

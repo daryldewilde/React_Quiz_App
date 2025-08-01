@@ -1,7 +1,7 @@
 import {Admin, Resource} from "react-admin"
 import dataProvider from "./api/dataprovider";
 import CategoriesList from "./components/admin/category/CategoriesList";
-import CatergoryEdit from "./components/admin/category/CategoryEdit";
+import CategoryEdit from "./components/admin/category/CategoryEdit";
 import CategoryCreate from "./components/admin/category/CategoryCreate";
 import CategoryShow from "./components/admin/category/CategoryShow";
 import ScoresList from "./components/admin/score/ScoresList";
@@ -18,6 +18,7 @@ import MyLayout from "./components/admin/Layout";
 
 export default function AdminInterface(){
     return (
+        
         <Admin  
         dataProvider={dataProvider} 
         basename="/admin" 
@@ -28,7 +29,7 @@ export default function AdminInterface(){
             <Resource
                 name="Categories"
                 list={CategoriesList}
-                edit={CatergoryEdit}
+                edit={CategoryEdit}
                 create={CategoryCreate}
                 show={CategoryShow}
                 icon={CategoryIcon}

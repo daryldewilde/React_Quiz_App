@@ -13,7 +13,7 @@ function App() {
     return (
         <BrowserRouter>
             <Routes>
-                {/* Home page - user login/entry point */}
+                {/* Home page */}
                 <Route path='/' element={<Home />}/>
                 
                 {/* Leaderboard page - shows quiz results */}
