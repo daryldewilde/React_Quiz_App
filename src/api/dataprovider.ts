@@ -3,7 +3,9 @@ import {
     getAllCategories, getCategoryById, updateCategory, deleteCategory, createCategory,
     getAllQuestions, getQuestionById, updateQuestion, deleteQuestion, createQuestion,
     getAllScores, getScoreById, deleteScore, linkQuestionToCategory,
-    countTotalQuestionsRecords, countTotalScoresRecords, countTotalCategoriesRecords
+    countTotalQuestionsRecords, countTotalScoresRecords, countTotalCategoriesRecords,
+    getConfigs,
+    updateConfigs
 } from "./api";
 import type { question, Score } from "../types/types";
 import type { DataProvider, GetListParams, GetListResult, GetManyParams, GetManyResult, GetOneParams, GetOneResult, DeleteParams, DeleteResult, CreateParams, CreateResult, UpdateParams, UpdateResult, DeleteManyParams, DeleteManyResult } from "react-admin";
@@ -88,6 +90,14 @@ const dataProvider: DataProvider = {
                     total: await countTotalScoresRecords()
                 };
             }
+            case 'Configs': {
+                const configs = await getConfigs()
+                const mappedConfigs = [{...configs, id:configs.objectId}]
+                return {
+                    data: mappedConfigs,
+                    total: 1
+                };
+            }
             default:
                 throw new Error(`Unsupported resource: ${resource}`);
         }
@@ -107,6 +117,10 @@ const dataProvider: DataProvider = {
             case 'Scores': {
                 const score = await getScoreById(idStr);
                 return { data: { ...score, id: score.objectId, Category_id: score.category?.objectId } };
+            }
+            case 'Configs': {
+                const config = await getConfigs();
+                return { data:{...config, id:config.objectId}};
             }
             default:
                 throw new Error(`Unsupported resource: ${resource}`);
@@ -175,12 +189,17 @@ const dataProvider: DataProvider = {
         switch (resource) {
             case 'Categories': {
                 const { name } = params.data;
-                const updatedCat = await updateCategory(params.id as string, { name });
+                const updatedCat = await updateCategory(params.id, { name });
                 return { data: { ...updatedCat, id: updatedCat.objectId } };
             }
             case 'Questions': {
-                const updatedQ = await updateQuestion(params.id as string, params.data);
+                const updatedQ = await updateQuestion(params.id, params.data);
                 return { data: { ...updatedQ, id: updatedQ.objectId } };
+            }
+            case 'Configs': {
+                console.log(params)
+                const updatedConfig = await updateConfigs(params.id, params.data);
+                return { data: { ...updatedConfig, id: updatedConfig.objectId } };
             }
             default:
                 throw new Error(`Unsupported resource: ${resource}`);

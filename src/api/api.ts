@@ -4,17 +4,28 @@ import axios from "axios";
 import { shuffleElements } from "../utils/utils";
 import type { credentials, question } from "../types/types";
 
-
 const BASE_URL = import.meta.env.VITE_BASE_URL
 const AUTH_SUBDOMAIN = import.meta.env.VITE_BACKENDLESS_AUTH_SUBDOMAIN
 const BACKENDLESS_APP_ID = import.meta.env.VITE_BACKENDLESS_APP_ID
 const BACKENDLESS_REST_API_KEY = import.meta.env.VITE_BACKENDLESS_REST_API_KEY;
 const DATA_PAGE_SIZE_LIMIT = 100; // Default page size for data fetching
-const QUESTIONS_LIMIT = 20; // Default limit for questions
 
 const FULL_BASE_URL = `${BASE_URL}/${BACKENDLESS_APP_ID}/${BACKENDLESS_REST_API_KEY}/data`;
+ 
+export const  getConfigs  = async () => {
+  const res = await axios.get(`${FULL_BASE_URL}/Configs`)
+  return res.data[0]
+}
 
+export const updateConfigs = async (id: string, configObj: Record<string, unknown>) => {
+  const res = await axios.put(`${FULL_BASE_URL}/Configs/${id}`, configObj);
+  return res.data;
+};
 
+const getQuestionsLimit = async (): Promise<number> => {
+  const configs = await getConfigs();
+  return configs.QUESTIONS_LIMIT;
+};
 // --- Authentication for Admin ---
 export const authenticate = async (credentials:credentials) =>{
   console.log('authenticating')
@@ -29,6 +40,7 @@ export const authenticate = async (credentials:credentials) =>{
 
 // --- QUESTIONS ---
 export const getRandomQuestionsForCategory = async (category:string,):Promise<question[]> => {
+  const QUESTIONS_LIMIT = await getQuestionsLimit();
   const offset = Math.floor(Math.random() * (await countTotalQuestionsForCategory(category)- QUESTIONS_LIMIT + 1));
   const res = await axios.get(`${FULL_BASE_URL}/Questions?pageSize=${QUESTIONS_LIMIT}&offset=${offset}&where=category.name='${category}'`);
   return shuffleElements(res.data);
@@ -127,11 +139,6 @@ export const createCategory = async (name: string) => {
   return res.data;
 };
 
-export const getCategoryByName = async (name: string) => {
-  const res = await axios.get(`${FULL_BASE_URL}/Categories?where=name='${name}'`);
-  return res.data;
-};
-
 export const deleteCategory = async (id: string) => {
   const res = await axios.delete(`${FULL_BASE_URL}/Categories/${id}`);
   return res.data;
@@ -204,6 +211,4 @@ export const linkQuestionToCategory = async (questionId: string, categoryId: str
   const res = await axios.post(`${FULL_BASE_URL}/Questions/${questionId}/Category`, [categoryId]);
   return res.data;
 };
-
-
 

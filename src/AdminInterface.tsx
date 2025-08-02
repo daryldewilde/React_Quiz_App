@@ -15,6 +15,11 @@ import ScoreIcon from '@mui/icons-material/Score';
 import QuizIcon from '@mui/icons-material/Quiz';
 import authProvider from "./api/authProvider";
 import MyLayout from "./components/admin/Layout";
+import SettingsIcon from '@mui/icons-material/Settings';
+import ConfigsList from "./components/admin/configs/ConfigsList";
+import ConfigsShow from "./components/admin/configs/ConfigsShow";
+import ConfigsEdit from "./components/admin/configs/ConfigsEdit";
+
 
 export default function AdminInterface(){
     return (
@@ -49,6 +54,14 @@ export default function AdminInterface(){
                 create={QuestionCreate}
                 show={QuestionShow}
                 icon={QuizIcon}
+            />
+
+             <Resource
+                name="Configs"
+                list={ConfigsList}
+                show={ConfigsShow}
+                edit={ConfigsEdit}
+                icon={SettingsIcon}
             />
         </Admin>
     )
