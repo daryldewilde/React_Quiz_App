@@ -92,7 +92,7 @@ export default function Leaderboard() {
                         {error.message}
                     </Typography>
                 ) : scores.length > 0 ? (
-                    <Paper sx={{overflowX: "auto", borderRadius: 3 }}>
+                    <Paper  elevation={3} sx={{overflowX: "auto", borderRadius: 3 }}>
                         <Table>
                             <TableHead>
                                 <TableRow sx={{backgroundColor:themeContext.theme === "dark" ? "#1a1a2e": "#fff"   }}>
