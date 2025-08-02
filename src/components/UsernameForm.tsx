@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useThemeContext } from '../hooks/useThemeContext';
 import { usePlayerContext } from '../hooks/usePlayerContext';
 import Button from "./Button";
+import { Box } from '@mui/system';
+import { TextField, Typography } from '@mui/material';
 
 export default function UsernameForm() {
     // Get theme and user context using custom hooks
@@ -11,7 +13,9 @@ export default function UsernameForm() {
     const navigate = useNavigate();
 
     // Handle form submission when user starts quiz
-    function startQuiz(formData: FormData) {
+    function startQuiz(event: React.FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+        const formData = new FormData(event.currentTarget);
         const name = formData.get("name") as string;
         
         // Save name to localStorage and context
@@ -23,31 +27,40 @@ export default function UsernameForm() {
     }
 
     return (
-        <form action={startQuiz} className='flex flex-col items-center p-4 md:p-8'>
-            <div className="text-center mb-4 md:mb-6">
-                <h1 className={`text-2xl md:text-3xl font-bold mb-2 ${themeContext.theme === "dark" ? "text-pink-400" : "text-pink-600"}`}>
+        <Box component="form" onSubmit={startQuiz} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <Typography
+                    variant="h4"
+                    fontWeight="bold"
+                    mb={2}                >
                     Welcome!
-                </h1>
-                <p className={`text-base md:text-lg ${themeContext.theme === "dark" ? "text-gray-300" : "text-gray-600"}`}>
+                </Typography>
+                <Typography
+                    variant="body1"
+                    mb={3}
+                    color={themeContext.theme === "dark" ? "grey.300" : "grey.700"}
+                >
                     Let's get started with your quiz
-                </p>
-            </div>
-            
-            <div className="w-full max-w-xs md:max-w-sm mb-4 md:mb-6">
-                <label htmlFor="name" className={`block text-sm font-medium mb-2 ${themeContext.theme === "dark" ? "text-gray-300" : "text-gray-700"}`}>
-                    Your Name
-                </label>
-                <input  
+                </Typography>
+                <TextField
                     id="name"
-                    name="name" 
-                    placeholder="Enter your name here" 
-                    className={`w-full px-3 md:px-4 py-2 md:py-3 border rounded-lg text-sm md:text-base ${themeContext.theme === "dark" ? "bg-gray-700 border-gray-600 text-white" : "bg-white border-gray-300 text-gray-900"}`}
-                    autoFocus
+                    name="name"
+                    label="Your Name"
+                    placeholder="Enter your name here"
+                    fullWidth
                     required
+                    autoFocus
+                    sx={{
+                        mb: 3,
+                        width: { xs: "80%", md: "50%" },
+                        '& .MuiInputBase-input': {
+                            color: themeContext.theme === "dark" ? '#fff' : '#222'
+                        },
+                        '& .MuiInputLabel-root': {
+                            color: themeContext.theme === "dark" ? 'grey.300' : 'grey.700'
+                        }
+                    }}
                 />
-            </div>
-            
-            <Button text="Start Quiz" type='submit'/>
-        </form>
+                <Button text="Start Quiz" type='submit'/>
+            </Box>
     );
 }

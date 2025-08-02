@@ -1,6 +1,3 @@
-
-import Header from "../components/Header";
-import Footer from "../components/Footer";
 import PageLayout from "../components/PageLayout";
 import { getAllCategories } from '../api/api';
 import { useQuery } from "@tanstack/react-query";
@@ -9,7 +6,7 @@ import Button from "../components/Button";
 import { useThemeContext } from "../hooks/useThemeContext";
 import { usePlayerContext } from "../hooks/usePlayerContext";
 import { useNavigate } from "react-router-dom";
-import { Box, Typography } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 
 // Categories page - allows users to select quiz categories
 export default function Categories() {
@@ -45,23 +42,19 @@ export default function Categories() {
     }
 
     return (
-        <>
-            <Header />
-            <PageLayout>
-                    <Typography variant="h4" sx={{ mb: 2, fontWeight: "bold" }}>Choose a Category</Typography>
-                    <Typography sx={{ mb: 3, color: themeContext.theme === "dark" ? "grey.300" : "grey.600" }}>
-                        Select the topic you'd like to be quizzed on
-                    </Typography>
-                    <Typography sx={{ fontWeight: "bold", mt: 2, mb: 2, color: themeContext.theme === "dark" ? "common.white" : "grey.900" }}>
-                        {isLoading && "Loading categories....."}
-                        {isError && `Error loading categories: ${error.message}`}
-                    </Typography>
-                    <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr 1fr", md: "1fr 1fr 1fr", lg: "1fr 1fr 1fr 1fr" }, gap: 2, mb: 4 }}>
-                        {catComponents}
-                    </Box>
-                    <Button text="Choose randomly" onClick={navigateToRandomQuiz} />
-            </PageLayout>
-            <Footer />
-        </>
+        <PageLayout>
+                <Typography variant="h4" sx={{ mb: 2, fontWeight: "bold" }}>Choose a Category</Typography>
+                <Typography sx={{ mb: 3, color: themeContext.theme === "dark" ? "grey.300" : "grey.600" }}>
+                    Select the topic you'd like to be quizzed on
+                </Typography>
+                <Typography sx={{ fontWeight: "bold", mt: 2, mb: 2, color: themeContext.theme === "dark" ? "common.white" : "grey.900" }}>
+                    {isLoading &&   <CircularProgress />}
+                    {isError && `Error loading categories: ${error.message}`}
+                </Typography>
+                <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr 1fr", md: "1fr 1fr 1fr", lg: "1fr 1fr 1fr 1fr" }, gap: 2, mb: 4 }}>
+                    {catComponents}
+                </Box>
+                <Button text="Choose randomly" onClick={navigateToRandomQuiz} />
+        </PageLayout>
     );
 }

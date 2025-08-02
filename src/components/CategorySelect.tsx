@@ -33,7 +33,7 @@ export default function CategorySelect(props:{cat:string,id:string}){
                 bgcolor: themeContext.theme === 'dark' ? '#374151' : '#fff',
                 color: themeContext.theme === 'dark' ? '#fff' : '#111827',
                 '&:hover': {
-                    bgcolor:'#7998c7ff',
+                    bgcolor:themeContext.theme === "dark" ? "#b679c7ff" : "#7998c7ff"
                 },
                 mb: 1
             }}

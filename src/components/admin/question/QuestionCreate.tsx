@@ -37,8 +37,8 @@ export default function QuestionCreate(){
                 <ReferenceInput source="Category_id" reference="Categories">
                     <SelectInput optionText="name" validate={required()} />
                 </ReferenceInput>
-                <TextInput source="question_text" validate={required()}/>
-                <TextInput source="answer_options" validate={required()}/>
+                <TextInput source="question_text" multiline rows={2} validate={required()}/>
+                <TextInput source="answer_options" multiline rows={5} validate={required()}/>
                 <TextInput source="correct_answer" validate={required()}/>
             </SimpleForm>
         </Create>

@@ -1,6 +1,3 @@
-
-import Header from "../components/Header";
-import Footer from "../components/Footer";
 import PageLayout from "../components/PageLayout";
 import Button from "../components/Button";
 import { useParams, useNavigate } from "react-router-dom";
@@ -11,7 +8,7 @@ import { usePlayerContext } from "../hooks/usePlayerContext";
 import { createScore, getAllCategories, getAllQuestionsByCategory, linkScoreToCategory } from "../api/api";
 import type { failedQuestion, question } from "../types/types";
 import type { JSX } from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 
 
 export default function Quiz() {
@@ -133,33 +130,43 @@ export default function Quiz() {
         }
         options = Object.entries(answersObj)
             .map(([key, value]) => (
-                <div
+                <Box
                     key={key}
                     onClick={() => setSelectedAnswer(key)}
-                    className={`flex items-center p-3 md:p-4 border rounded-lg hover:bg-opacity-80 cursor-pointer ${
-                        themeContext.theme === "dark"
-                            ? "bg-gray-700 border-gray-600 hover:bg-gray-600"
-                            : "bg-white border-gray-300 hover:bg-gray-50"
-                    }`}
+                    sx={{
+                        width:"80%",
+                        display: "flex",
+                        alignItems: "center",
+                        p: { xs: 1, md: 2 },
+                        border: 1,
+                        borderRadius: 20,
+                        cursor: "pointer",
+                        bgcolor: themeContext.theme === "dark" ? "#374151" : "background.paper",
+                        mb: 1,
+                        '&:hover': {
+                            bgcolor: themeContext.theme === "dark" ? "#697588ff" : "grey.50"
+                        }
+                    }}
                 >
                     <input
                         id={key}
                         type="radio"
                         value={key}
                         name="answers"
-                        className="w-4 h-4 mr-2 md:mr-3"
+                        style={{ width: 20, height: 20, marginRight: 12 }}
                         checked={selectedAnswer === key}
                         readOnly
                     />
                     <label
                         htmlFor={`bordered-radio-${key}`}
-                        className={`cursor-pointer text-sm md:text-base ${
-                            themeContext.theme === "dark" ? "text-white" : "text-gray-900"
-                        }`}
+                        style={{
+                            cursor: "pointer",
+                            color: themeContext.theme === "dark" ? "#fff" : "#222"
+                        }}
                     >
                         {value as string}
                     </label>
-                </div>
+                </Box>
             ));
     }
 
@@ -169,41 +176,39 @@ export default function Quiz() {
     }
 
     return (
-        <>
-            <Header />
-            <PageLayout>
-                {/* Quiz form with questions and answers */}
-                {question && (
-                    <form onSubmit={handleSubmit} style={{ textAlign: "center" }}>
-                        <Typography variant="h4" sx={{ mb: 2, fontWeight: "bold" }}>{category}</Typography>
-                        <Typography sx={{ mb: 3, color: themeContext.theme === "dark" ? "grey.300" : "grey.700" }}>{question.question_text}</Typography>
-                        <Box sx={{ display: "flex", flexDirection: "column", gap: 2, mb: 4 }}>
-                            {options}
-                        </Box>
-                        <Button text={buttonText} type="submit" />
-                        <Typography sx={{ mt: 2, color: themeContext.theme === "dark" ? "grey.400" : "grey.600",fontWeight:"bold" }}>
-                            Question {questionIndex + 1} of {questions.length}
-                        </Typography>
-                    </form>
-                )}
-                {/* Loading state */}
-                {isLoading && (
-                    <Box sx={{ textAlign: "center", my: 4 }}>
-                        <Typography variant="body1" sx={{ color: themeContext.theme === "dark" ? "common.white" : "grey.900" }}>
-                            Loading question...
-                        </Typography>
+        <PageLayout>
+            {/* Quiz form with questions and answers */}
+            {question && (
+                <form onSubmit={handleSubmit} style={{ textAlign: "center" }}>
+                    <Typography variant="h4" sx={{ mb: 2, fontWeight: "bold" }}>{category}</Typography>
+                    <Typography sx={{ mb: 3, color: themeContext.theme === "dark" ? "grey.300" : "grey.700" }}>{question.question_text}</Typography>
+                    <Box sx={{ display: "flex", flexDirection: "column", gap: 2, mb: 4, 
+                        alignItems:"center"
+                    }}>
+                        {options}
                     </Box>
-                )}
-                {/* Error state */}
-                {isError && (
-                    <Box sx={{ textAlign: "center", my: 4 }}>
-                        <Typography variant="body1" sx={{ color: themeContext.theme === "dark" ? "common.white" : "grey.900" }}>
-                            {error.message}
-                        </Typography>
-                    </Box>
-                )}
-            </PageLayout>
-            <Footer />
-        </>
+                    <Button text={buttonText} type="submit" />
+                    <Typography sx={{ mt: 2, color: themeContext.theme === "dark" ? "grey.400" : "grey.600",fontWeight:"bold" }}>
+                        Question {questionIndex + 1} of {questions.length}
+                    </Typography>
+                </form>
+            )}
+            {/* Loading state */}
+            {isLoading && (
+                <Box sx={{ textAlign: "center", my: 4 }}>
+                    <Typography variant="body1" sx={{ color: themeContext.theme === "dark" ? "common.white" : "grey.900" }}>
+                            <CircularProgress />
+                    </Typography>
+                </Box>
+            )}
+            {/* Error state */}
+            {isError && (
+                <Box sx={{ textAlign: "center", my: 4 }}>
+                    <Typography variant="body1" sx={{ color: themeContext.theme === "dark" ? "common.white" : "grey.900" }}>
+                        {error.message}
+                    </Typography>
+                </Box>
+            )}
+        </PageLayout>
     );
 }

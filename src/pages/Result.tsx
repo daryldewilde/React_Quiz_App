@@ -1,8 +1,6 @@
 
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
 import PageLayout from "../components/PageLayout";
 import Button from "../components/Button";
 import { useThemeContext } from "../hooks/useThemeContext";
@@ -88,7 +86,7 @@ export default function Result() {
                         : "bg-white border-gray-300"
                 }`}
             >
-                <Box className="w-full">
+                <Box >
                     <Typography
                         variant="body1"
                         component="p"
@@ -122,18 +120,19 @@ export default function Result() {
     });
 
     return (
-        <>
-            <Header />
-            <PageLayout>
-                {scorePercentage >= 50 && <ReactConfetti />}
-                    <Typography variant="h4" sx={{ mb: 2, fontWeight: "bold" }}>{category}</Typography>
-                    <Typography variant="h5" sx={{ mb: 2, fontWeight: "bold" }}>{result.heading} {displayName}, you scored {score}/{totalQuestions}</Typography>
-                    <Typography sx={{ mb: 3, color: themeContext.theme === "dark" ? "grey.300" : "grey.600" }}>{result.message}</Typography>
-                    <Typography variant="h6" sx={{ mb: 2, fontWeight: "bold" }}>Here are the correct answers to the questions you missed</Typography>
-                    <List sx={{ listStyle: "none", p: 0 }}>{failedQuestionsElements}</List>
-                    <Button text="View Leaderboard" onClick={goToLeaderBoard} />
-            </PageLayout>
-            <Footer />
-        </>
+        <PageLayout>
+            {scorePercentage >= 50 && <ReactConfetti />}
+                <Typography variant="h4" sx={{ mb: 2, fontWeight: "bold" }}>{category}</Typography>
+                <Typography variant="h5" sx={{ mb: 2, fontWeight: "bold" }}>{result.heading} {displayName}, you scored {score}/{totalQuestions}</Typography>
+                <Typography sx={{ mb: 3, color: themeContext.theme === "dark" ? "grey.300" : "grey.600" }}>{result.message}</Typography>
+                <Typography variant="h6" sx={{ mb: 2, fontWeight: "bold", textAlign: "center" }}>
+                    Here are the correct answers to the questions you missed
+                </Typography>
+                <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", width: "100%" }}>
+                    <List sx={{ listStyle: "none", p: 0, width: { md: "80%" } }}>
+                        {failedQuestionsElements}
+                    </List>
+                </Box> <Button text="View Leaderboard" onClick={goToLeaderBoard} />
+        </PageLayout>
     );
 }
