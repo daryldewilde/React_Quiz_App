@@ -1,7 +1,7 @@
 // API configuration for quiz app
 
 import axios from "axios";
-import { getRandomElements } from "../utils/utils";
+import { shuffleElements } from "../utils/utils";
 import type { credentials, question } from "../types/types";
 
 
@@ -28,10 +28,10 @@ export const authenticate = async (credentials:credentials) =>{
 
 
 // --- QUESTIONS ---
-export const getAllQuestionsByCategory = async (category:string,pageSize:number = DATA_PAGE_SIZE_LIMIT, offset:number = 0):Promise<question[]> => {
-  const res = await axios.get(`${FULL_BASE_URL}/Questions?pageSize=${pageSize}&offset=${offset}&where=category.name='${category}'`);
-  console.log("Fetched Questions:", res.data);
-  return getRandomElements(res.data, QUESTIONS_LIMIT);
+export const getRandomQuestionsForCategory = async (category:string,):Promise<question[]> => {
+  const offset = Math.floor(Math.random() * (await countTotalQuestionsForCategory(category)- QUESTIONS_LIMIT + 1));
+  const res = await axios.get(`${FULL_BASE_URL}/Questions?pageSize=${QUESTIONS_LIMIT}&offset=${offset}&where=category.name='${category}'`);
+  return shuffleElements(res.data);
 };
 
 export const getQuestionById = async (id: string) => {
@@ -52,7 +52,7 @@ export const getAllQuestions = async ({
 } = {}): Promise<question[]> => {
   let url = `${FULL_BASE_URL}/Questions?loadRelations=category&pageSize=${pageSize}&offset=${offset}`;
   if (contains) {
-    const whereClause = encodeURIComponent(`question_text LIKE '%${contains}%' OR answer_options LIKE '%${contains}%' OR correct_answer LIKE '%${contains}%'`);
+    const whereClause = encodeURIComponent(`question_text LIKE '%${contains}%' OR answer_options LIKE '%${contains}%' OR correct_answer LIKE '%${contains}%' OR category.name LIKE '%${contains}%'`);
     url += `&where=${whereClause}`;
   }
   if (sortString) {
@@ -79,6 +79,12 @@ export const deleteQuestion = async (id: string) => {
 
 export const countTotalQuestionsRecords = async (): Promise<number> => {
   const res = await axios.get(`${FULL_BASE_URL}/Questions?property=Count('objectId')`)
+  return res.data[0].count
+}
+
+
+export const countTotalQuestionsForCategory = async (category:string): Promise<number> => {
+  const res = await axios.get(`${FULL_BASE_URL}/Questions?property=Count('objectId')&where=category.name='${category}'`)
   return res.data[0].count
 }
 
@@ -156,7 +162,7 @@ export const getAllScores = async ({
 } = {}): Promise<[]> => {
   let url = `${FULL_BASE_URL}/Scores?loadRelations=category&pageSize=${pageSize}&offset=${offset}`;
   if (contains) {
-    const whereClause = encodeURIComponent(`name LIKE '%${contains}%' OR score LIKE '%${contains}%'`);
+    const whereClause = encodeURIComponent(`name LIKE '%${contains}%' OR score LIKE '%${contains}%' OR category.name LIKE '%${contains}%'`);
     url += `&where=${whereClause}`;
   }
   if (sortString) {

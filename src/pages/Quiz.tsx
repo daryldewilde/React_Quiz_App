@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useThemeContext } from "../hooks/useThemeContext";
 import { usePlayerContext } from "../hooks/usePlayerContext";
-import { createScore, getAllCategories, getAllQuestionsByCategory, linkScoreToCategory } from "../api/api";
+import { createScore, getAllCategories, getRandomQuestionsForCategory, linkScoreToCategory } from "../api/api";
 import type { failedQuestion, question } from "../types/types";
 import type { JSX } from "react";
 import { Box, CircularProgress, Typography } from "@mui/material";
@@ -34,7 +34,7 @@ export default function Quiz() {
         error
     } = useQuery<question[]>({
         queryKey: ['questions', category],
-        queryFn: () => getAllQuestionsByCategory(category as string),
+        queryFn: () => getRandomQuestionsForCategory(category as string),
         gcTime: 1000 * 60 * 20,
         staleTime: 1000 * 60 * 20
     });
