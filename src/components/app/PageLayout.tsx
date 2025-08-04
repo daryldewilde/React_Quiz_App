@@ -1,6 +1,6 @@
 import { useContext } from 'react';
-import { ThemeContext } from '../contexts/theme';
-import type { ThemeContextType } from '../types/types';
+import { ThemeContext } from '../../contexts/theme';
+import type { ThemeContextType } from '../../types/types';
 import type { ReactNode } from "react";
 import { Box } from '@mui/material';
 import Header from './Header';

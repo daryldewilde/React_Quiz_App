@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import PageLayout from "../components/PageLayout";
+import PageLayout from "../components/app/PageLayout";
 import { useThemeContext } from "../hooks/useThemeContext";
 import { useQuery } from "@tanstack/react-query";
 import { getAllCategories, getAllScores } from "../api/api";

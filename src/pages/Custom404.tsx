@@ -1,8 +1,8 @@
 
 import { useNavigate } from "react-router-dom";
-import Button from "../components/Button";
+import Button from "../components/app/Button";
 import { Typography, Box } from "@mui/material";
-import PageLayout from "../components/PageLayout";
+import PageLayout from "../components/app/PageLayout";
 import { useThemeContext } from "../hooks/useThemeContext";
 
 export default function Custom404() {

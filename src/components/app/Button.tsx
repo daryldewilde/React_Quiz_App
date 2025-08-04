@@ -1,7 +1,7 @@
 
-import type { ButtonComponentProps } from '../types/types';
+import type { ButtonComponentProps } from '../../types/types';
 import { Button as MUIButton } from '@mui/material';
-import { useThemeContext } from '../hooks/useThemeContext';
+import { useThemeContext } from '../../hooks/useThemeContext';
 
 export default function Button({ text, ...props }: ButtonComponentProps) {
     const themeContext = useThemeContext()

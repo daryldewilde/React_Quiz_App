@@ -1,8 +1,8 @@
 
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import UsernameForm from "../components/UsernameForm";
-import PageLayout from "../components/PageLayout";
+import UsernameForm from "../components/app/UsernameForm";
+import PageLayout from "../components/app/PageLayout";
 import { usePlayerContext } from "../hooks/usePlayerContext";
 
 // Home page component - entry point for the quiz app

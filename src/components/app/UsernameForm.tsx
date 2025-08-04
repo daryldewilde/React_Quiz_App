@@ -1,7 +1,7 @@
 
 import { useNavigate } from 'react-router-dom';
-import { useThemeContext } from '../hooks/useThemeContext';
-import { usePlayerContext } from '../hooks/usePlayerContext';
+import { useThemeContext } from '../../hooks/useThemeContext';
+import { usePlayerContext } from '../../hooks/usePlayerContext';
 import Button from "./Button";
 import { Box } from '@mui/system';
 import { TextField, Typography } from '@mui/material';

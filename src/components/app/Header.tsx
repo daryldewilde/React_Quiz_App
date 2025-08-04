@@ -1,8 +1,8 @@
 
-import logo from '../assets/logo.png';
+import logo from '../../assets/logo.png';
 import { useContext } from 'react';
-import { ThemeContext } from '../contexts/theme';
-import type { ThemeContextType } from '../types/types';
+import { ThemeContext } from '../../contexts/theme';
+import type { ThemeContextType } from '../../types/types';
 import { NavLink } from 'react-router-dom';
 import { AppBar, Toolbar, Box, Typography, IconButton, Button as MUIButton } from '@mui/material';
 import Brightness2Icon from '@mui/icons-material/Brightness2';

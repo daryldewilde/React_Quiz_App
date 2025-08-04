@@ -1,8 +1,8 @@
-import PageLayout from "../components/PageLayout";
+import PageLayout from "../components/app/PageLayout";
 import { getAllCategories } from '../api/api';
 import { useQuery } from "@tanstack/react-query";
-import CategorySelect from "../components/CategorySelect";
-import Button from "../components/Button";
+import CategorySelect from "../components/app/CategorySelect";
+import Button from "../components/app/Button";
 import { useThemeContext } from "../hooks/useThemeContext";
 import { usePlayerContext } from "../hooks/usePlayerContext";
 import { useNavigate } from "react-router-dom";

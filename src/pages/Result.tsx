@@ -1,8 +1,8 @@
 
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import PageLayout from "../components/PageLayout";
-import Button from "../components/Button";
+import PageLayout from "../components/app/PageLayout";
+import Button from "../components/app/Button";
 import { useThemeContext } from "../hooks/useThemeContext";
 import { usePlayerContext } from "../hooks/usePlayerContext";
 import { List, ListItem, Typography, Box } from "@mui/material";
