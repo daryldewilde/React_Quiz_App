@@ -7,6 +7,8 @@ import { getAllCategories, getAllScores } from "../api/api";
 import type { Score } from "../types/types";
 import { Box, Typography, Select, MenuItem, FormControl, InputLabel, CircularProgress } from "@mui/material";
 import { Table, TableHead, TableRow, TableCell, TableBody, Paper } from "@mui/material";
+import Lottie from "lottie-react";
+import noResults from "../anim/noResults.json"
 
 
 export default function Leaderboard() {
@@ -122,9 +124,12 @@ export default function Leaderboard() {
                         </Table>
                     </Paper>
                 ) : (
-                    <Typography align="center" sx={{ mt: 2 }}>
-                        No scores yet for <b>{selectedSubject ? selectedSubject.charAt(0).toUpperCase() + selectedSubject.slice(1) : "this category"}</b>. Be the first to take a quiz in this category!
-                    </Typography>
+                    <>
+                        <Lottie animationData={noResults} style={{ width: 150, height: 150, margin: "0 auto" }}/>
+                        <Typography align="center" sx={{ mt: 2 }}>
+                            No scores yet for <b>{selectedSubject ? selectedSubject.charAt(0).toUpperCase() + selectedSubject.slice(1) : "this category"}</b>. Be the first to take a quiz in this category!
+                        </Typography>
+                    </>
                 )}
         </PageLayout>
     );

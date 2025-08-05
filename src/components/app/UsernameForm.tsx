@@ -5,6 +5,8 @@ import { usePlayerContext } from '../../hooks/usePlayerContext';
 import Button from "./Button";
 import { Box } from '@mui/system';
 import { TextField, Typography } from '@mui/material';
+import helloPigeon from "../../anim/helloPigeon.json"
+import Lottie from 'lottie-react';
 
 export default function UsernameForm() {
     // Get theme and user context using custom hooks
@@ -34,6 +36,8 @@ export default function UsernameForm() {
                     mb={2}                >
                     Welcome!
                 </Typography>
+                <Lottie  animationData={helloPigeon} style={{ width: 150, height: 150, margin: "0 auto" }} />
+
                 <Typography
                     variant="body1"
                     mb={3}
