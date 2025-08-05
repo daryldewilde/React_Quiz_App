@@ -4,7 +4,7 @@ import { useContext } from 'react';
 import { ThemeContext } from '../../contexts/theme';
 import type { ThemeContextType } from '../../types/types';
 import { NavLink } from 'react-router-dom';
-import { AppBar, Toolbar, Box, Typography, IconButton, Button as MUIButton } from '@mui/material';
+import { AppBar, Toolbar, Box, Typography, IconButton, Button } from '@mui/material';
 import Brightness2Icon from '@mui/icons-material/Brightness2';
 import WbSunnyIcon from '@mui/icons-material/WbSunny';
 
@@ -33,15 +33,15 @@ export default function Header() {
         }}
     >
         <Toolbar sx={{ flexDirection: { xs: 'column', md: 'row' }, alignItems: 'center', justifyContent: 'space-between'}}>
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: { xs: 1, md: 0 } }}>
+            <Box component={NavLink} to="/" sx={{ display: 'flex', alignItems: 'center', mb: { xs: 1, md: 0 } }}>
                 <img src={logo} alt='logo' style={{ height: 40, marginRight: 12 }} />
-                <Typography variant="h6" sx={{ fontWeight: 'bold', fontSize: { xs: 18, md: 22 } }}>Quiz App</Typography>
+                <Typography variant="h6" sx={{ fontWeight: 'bold', fontSize: { xs: 18, md: 22 } }}>Tech Quiz</Typography>
             </Box>
             <Box sx={{ display: 'flex', gap: { xs: 0, md: 2 }, flexWrap:"wrap"}}>
-                 <MUIButton component={NavLink} to="/" sx={{ color: '#fff', fontSize: { xs: 10, md: 16 }, '&.active': { color: themeContext?.theme === "dark" ? "secondary.main" : "darkblue" } }}>Home</MUIButton>
-                    <MUIButton component={NavLink} to="/subjects" sx={{ color: '#fff', fontSize: { xs: 10, md: 16 }, '&.active': { color: themeContext?.theme === "dark" ? "secondary.main" : "darkblue" } }}>Subjects</MUIButton>
-                    <MUIButton component={NavLink} to="/leaderboard" sx={{ color: '#fff', fontSize: { xs: 10, md: 16 }, '&.active': { color: themeContext?.theme === "dark" ? "secondary.main" : "darkblue" } }}>Leaderboard</MUIButton>
-                    <MUIButton component={NavLink} to="/admin" sx={{ color: '#fff', fontSize: { xs: 10, md: 16 }, '&.active': { color: themeContext?.theme === "dark" ? "secondary.main" : "darkblue" } }}>Admin</MUIButton>
+                 <Button component={NavLink} to="/" sx={{ color: '#fff', fontSize: { xs: 10, md: 16 }, '&.active': { color: themeContext?.theme === "dark" ? "secondary.main" : "darkblue" } }}>Home</Button>
+                    <Button component={NavLink} to="/subjects" sx={{ color: '#fff', fontSize: { xs: 10, md: 16 }, '&.active': { color: themeContext?.theme === "dark" ? "secondary.main" : "darkblue" } }}>Subjects</Button>
+                    <Button component={NavLink} to="/leaderboard" sx={{ color: '#fff', fontSize: { xs: 10, md: 16 }, '&.active': { color: themeContext?.theme === "dark" ? "secondary.main" : "darkblue" } }}>Leaderboard</Button>
+                    <Button component={NavLink} to="/admin" sx={{ color: '#fff', fontSize: { xs: 10, md: 16 }, '&.active': { color: themeContext?.theme === "dark" ? "secondary.main" : "darkblue" } }}>Admin</Button>
                 <IconButton onClick={switchTheme} sx={{ p: 1.2, borderRadius: 2, '&:hover': { bgcolor: '#374151' } }}>
                     {themeContext?.theme === "light" ? (
                         <Brightness2Icon sx={{ fontSize: 24, color: '#fff' }} />

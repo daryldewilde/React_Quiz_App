@@ -7,7 +7,9 @@ import { useThemeContext } from "../hooks/useThemeContext";
 import { usePlayerContext } from "../hooks/usePlayerContext";
 import { List, ListItem, Typography, Box } from "@mui/material";
 import ReactConfetti from "react-confetti";
-import type {failedQuestion} from "../types/types"; // Import the failedQuestion type
+import type {failedQuestion} from "../types/types"; 
+import Lottie from "lottie-react"
+import sadWalkingAnimation from "../anim/sadWalking.json"
 
 export default function Result() {
     // Hooks
@@ -121,10 +123,11 @@ export default function Result() {
 
     return (
         <PageLayout>
-            {scorePercentage >= 50 && <ReactConfetti />}
+            {scorePercentage >= 50 ? <ReactConfetti /> : null}
                 <Typography variant="h4" sx={{ mb: 2, fontWeight: "bold" }}>{category}</Typography>
                 <Typography variant="h5" sx={{ mb: 2, fontWeight: "bold" }}>{result.heading} {displayName}, you scored {score}/{totalQuestions}</Typography>
                 <Typography sx={{ mb: 3, color: themeContext.theme === "dark" ? "grey.300" : "grey.600" }}>{result.message}</Typography>
+                {scorePercentage < 50 ? <Lottie animationData={sadWalkingAnimation} style={{ width: 250, height: 250, margin: "0 auto" }} /> : null}
                 <Typography variant="h6" sx={{ mb: 2, fontWeight: "bold", textAlign: "center" }}>
                     Here are the correct answers to the questions you missed
                 </Typography>
@@ -132,7 +135,8 @@ export default function Result() {
                     <List sx={{ listStyle: "none", p: 0, width: { md: "80%" } }}>
                         {failedQuestionsElements}
                     </List>
-                </Box> <Button text="View Leaderboard" onClick={goToLeaderBoard} />
+                </Box> 
+                <Button text="View Leaderboard" onClick={goToLeaderBoard} />
         </PageLayout>
     );
 }
